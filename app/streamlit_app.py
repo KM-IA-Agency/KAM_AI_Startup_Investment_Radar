@@ -7,6 +7,7 @@ import streamlit as st
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT))
 
+from src.db import get_engine
 from src.scoring import score_dataframe
 
 DATA_PATH = ROOT / "data" / "seeds" / "startups_seed.csv"
@@ -16,16 +17,64 @@ st.set_page_config(page_title="KAM AI Startup Radar", layout="wide")
 st.title("KAM AI Startup Investment Radar")
 st.caption("MVP de veille, scoring et watchlist startup IA / Deeptech")
 
+
+def load_from_csv():
+    df = pd.read_csv(DATA_PATH)
+    scored = score_dataframe(df)
+    return scored, "CSV seed"
+
+
+def load_from_database():
+    engine = get_engine()
+    query = """
+    SELECT
+        s.name,
+        s.website,
+        s.country,
+        s.region,
+        s.sector,
+        s.sub_sector,
+        s.stage,
+        s.description,
+        s.source_url,
+        sc.market_score,
+        sc.problem_pain_score,
+        sc.product_maturity_score,
+        sc.traction_score,
+        sc.team_score,
+        sc.technical_moat_score,
+        sc.valuation_score,
+        sc.investor_quality_score,
+        sc.exit_potential_score,
+        sc.risk_score,
+        sc.kamel_edge_score,
+        sc.total_score,
+        sc.decision,
+        sc.score_explanation
+    FROM startups s
+    LEFT JOIN scores sc ON sc.startup_id = s.id
+    """
+    df = pd.read_sql(query, engine)
+    if df.empty:
+        raise ValueError("database is empty")
+    return df.sort_values(["total_score", "kamel_edge_score"], ascending=False), "Database"
+
+
 @st.cache_data
 def load_data():
-    df = pd.read_csv(DATA_PATH)
-    return score_dataframe(df)
+    try:
+        return load_from_database()
+    except Exception:
+        return load_from_csv()
+
 
 try:
-    df = load_data()
+    df, data_source = load_data()
 except Exception as exc:
     st.error(f"Impossible de charger le dataset: {exc}")
     st.stop()
+
+st.info(f"Source de données active : {data_source}")
 
 with st.sidebar:
     st.header("Filtres")
