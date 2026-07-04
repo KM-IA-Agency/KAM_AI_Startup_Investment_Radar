@@ -1,0 +1,46 @@
+# Startup Memo — Weaviate
+
+## 1. Identité
+
+- Nom : Weaviate
+- Pays : Netherlands
+- Région : Europe
+- Secteur : Data Infrastructure
+- Sous-secteur : Vector database / AI-native database
+- Stade : Series B
+- Site : https://weaviate.io
+- Source : https://weaviate.io
+
+## 2. Résumé
+
+Open-source vector database for AI-native search and retrieval use cases.
+
+## 3. Scores
+
+- Score total : 75/100
+- Kamel Edge : 20/25
+- Risque : 5/10
+- Décision : Strong watch
+
+## 4. Explication
+
+large market, visible traction, strong Kamel Edge
+
+## 5. Questions de due diligence
+
+- Le produit est-il testable directement ?
+- La startup a-t-elle des clients payants vérifiables ?
+- Le moat est-il technique, data, distribution ou réglementaire ?
+- La valorisation laisse-t-elle encore un potentiel x5 / x10 ?
+- Le risque de dilution est-il acceptable ?
+- Quel accès réel existe pour investir ?
+
+## 6. Prochaine décision
+
+Décision actuelle : **Strong watch**
+
+Prochaine action recommandée : vérifier les sources, tester le produit et comparer avec 3 concurrents directs.
+
+---
+
+Note : ce memo est un outil d'analyse et ne constitue pas un conseil financier personnalisé.
