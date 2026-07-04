@@ -1,0 +1,11 @@
+name,category,url,priority,notes
+CB Insights Research,analyst,https://www.cbinsights.com/research/,high,AI and venture trend reports
+PitchBook News,analyst,https://pitchbook.com/news,high,VC market research and analyst notes
+Sifted,ecosystem,https://sifted.eu/,high,European startup news and leaderboards
+Startupticker Switzerland,ecosystem,https://www.startupticker.ch/en/,high,Swiss startup funding and ecosystem signals
+La French Tech,ecosystem,https://lafrenchtech.gouv.fr/,medium,French scaleups and public programs
+Product Hunt AI,product,https://www.producthunt.com/topics/artificial-intelligence,medium,Early product launches
+Hugging Face Models,technical,https://huggingface.co/models,medium,Model and dataset momentum
+GitHub Trending Python,technical,https://github.com/trending/python,medium,Developer adoption signals
+arXiv AI,technical,https://arxiv.org/list/cs.AI/recent,medium,Research acceleration signals
+MagStartup MENA,ecosystem,https://www.magstartup.com/,medium,MENA and Maghreb startup signals
