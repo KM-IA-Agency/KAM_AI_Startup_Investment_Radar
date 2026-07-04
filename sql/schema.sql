@@ -1,7 +1,8 @@
 -- KAM AI Startup Investment Radar - MVP schema
+-- Compatible with PostgreSQL-oriented design and SQLite local fallback.
 
 CREATE TABLE IF NOT EXISTS startups (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
     website TEXT,
     country TEXT,
@@ -18,7 +19,7 @@ CREATE TABLE IF NOT EXISTS startups (
 );
 
 CREATE TABLE IF NOT EXISTS founders (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     startup_id INTEGER REFERENCES startups(id),
     name TEXT NOT NULL,
     role TEXT,
@@ -28,7 +29,7 @@ CREATE TABLE IF NOT EXISTS founders (
 );
 
 CREATE TABLE IF NOT EXISTS funding_rounds (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     startup_id INTEGER REFERENCES startups(id),
     round_type TEXT,
     amount NUMERIC,
@@ -40,7 +41,7 @@ CREATE TABLE IF NOT EXISTS funding_rounds (
 );
 
 CREATE TABLE IF NOT EXISTS signals (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     startup_id INTEGER REFERENCES startups(id),
     signal_type TEXT NOT NULL,
     signal_date DATE,
@@ -73,7 +74,7 @@ CREATE TABLE IF NOT EXISTS scores (
 );
 
 CREATE TABLE IF NOT EXISTS investment_memos (
-    id SERIAL PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     startup_id INTEGER REFERENCES startups(id),
     memo_date DATE DEFAULT CURRENT_DATE,
     summary TEXT,
