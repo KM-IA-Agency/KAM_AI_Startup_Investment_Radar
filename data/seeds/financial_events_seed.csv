@@ -1,0 +1,14 @@
+name,event_date,event_type,event_title,amount,valuation,currency,share_price,ticker,exchange_name,description,source_url,confidence_score
+Figure AI,2024-02-29,funding,Series B funding round,675000000,2600000000,USD,,,,Series B round used as historical funding and valuation marker,https://www.figure.ai,2
+Figure AI,2025-09-01,funding,Late-stage funding placeholder,1000000000,39000000000,USD,,,,Placeholder for latest reported valuation to verify,https://www.figure.ai,1
+Physical Intelligence,2024-11-01,funding,Major funding round placeholder,400000000,2400000000,USD,,,,Robot foundation model funding marker to verify,https://www.physicalintelligence.company,1
+Skild AI,2025-06-01,funding,Growth funding placeholder,300000000,4000000000,USD,,,,Robotics foundation model valuation marker to verify,https://www.skild.ai,1
+1X Technologies,2024-01-11,funding,Series B funding round,100000000,,USD,,,,Humanoid robotics funding marker,https://www.1x.tech,2
+Apptronik,2025-02-01,funding,Growth funding placeholder,350000000,1500000000,USD,,,,Industrial humanoid robotics funding marker to verify,https://apptronik.com,1
+Agility Robotics,2024-01-01,funding,Growth funding placeholder,150000000,1000000000,USD,,,,Warehouse robotics funding marker to verify,https://agilityrobotics.com,1
+Mistral AI,2023-06-13,funding,Seed round,105000000,,EUR,,,,Early funding marker,https://mistral.ai,2
+Mistral AI,2023-12-10,funding,Series A round,385000000,2000000000,EUR,,,,European AI infrastructure valuation marker,https://mistral.ai,2
+Mistral AI,2024-06-11,funding,Series B round,600000000,6000000000,EUR,,,,European AI infrastructure valuation marker,https://mistral.ai,2
+Hugging Face,2023-08-24,funding,Series D round,235000000,4500000000,USD,,,,AI model platform funding and valuation marker,https://huggingface.co,2
+Baseten,2026-06-01,funding,Late-stage growth round placeholder,1500000000,13000000000,USD,,,,Inference platform valuation marker to verify,https://www.baseten.co,1
+Kayrros,2023-01-01,funding,Growth climate intelligence funding placeholder,40000000,1000000000,EUR,,,,Climate intelligence funding marker to verify,https://www.kayrros.com,1
