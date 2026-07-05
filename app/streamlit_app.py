@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT))
 
 from src.db import get_engine
+from src.events_view import render_product_and_events_view
 from src.formatting import add_readable_columns, format_number, format_percent
 from src.ipo_view import render_ipo_and_share_view
 from src.scoring import score_dataframe
@@ -17,12 +18,14 @@ BENCHMARK_PATH = ROOT / "data" / "seeds" / "benchmark_metrics_seed.csv"
 FINANCIAL_EVENTS_PATH = ROOT / "data" / "seeds" / "financial_events_seed.csv"
 IPO_EVENTS_PATH = ROOT / "data" / "seeds" / "ipo_events_seed.csv"
 PUBLIC_MARKET_PATH = ROOT / "data" / "seeds" / "public_market_observations_seed.csv"
+PRODUCT_MAPPING_PATH = ROOT / "data" / "seeds" / "company_product_mapping_seed.csv"
+UPCOMING_EVENTS_PATH = ROOT / "data" / "seeds" / "upcoming_events_seed.csv"
 FORECAST_PATH = ROOT / "reports" / "forecasts" / "scenario_forecasts.csv"
 FORECAST_SHORT_PATH = ROOT / "reports" / "forecasts" / "scenario_forecasts_short_term.csv"
 
 st.set_page_config(page_title="KAM AI Startup Radar", layout="wide")
 st.title("KAM AI Startup Investment Radar")
-st.caption("MVP de veille, scoring, benchmark, forecasts, IPO, actions et timelines startup IA / Deeptech")
+st.caption("MVP de veille, scoring, benchmark, forecasts, IPO, actions, produits et événements startup IA / Deeptech")
 
 
 def load_from_csv():
@@ -86,6 +89,8 @@ benchmark_df = load_optional_csv(BENCHMARK_PATH)
 financial_events_df = load_optional_csv(FINANCIAL_EVENTS_PATH)
 ipo_events_df = load_optional_csv(IPO_EVENTS_PATH)
 public_market_df = load_optional_csv(PUBLIC_MARKET_PATH)
+product_mapping_df = load_optional_csv(PRODUCT_MAPPING_PATH)
+upcoming_events_df = load_optional_csv(UPCOMING_EVENTS_PATH)
 forecast_df = load_optional_csv(FORECAST_PATH)
 forecast_short_df = load_optional_csv(FORECAST_SHORT_PATH)
 
@@ -111,7 +116,8 @@ filtered = df[
 
 tabs = st.tabs([
     "Overview", "Watchlist", "Benchmark", "Forecasts",
-    "Financial Timeline", "IPO & Actions", "Physical AI", "Startup Detail"
+    "Financial Timeline", "IPO & Actions", "Products & Events",
+    "Physical AI", "Startup Detail"
 ])
 
 with tabs[0]:
@@ -187,11 +193,6 @@ with tabs[4]:
             readable_events = add_readable_columns(events, ["amount", "valuation", "share_price"])
             display_cols = ["event_date", "event_type", "event_title", "amount_readable", "valuation_readable", "currency", "share_price_readable", "ticker", "exchange_name", "confidence_score", "description"]
             st.dataframe(readable_events[safe_columns(readable_events, display_cols)], use_container_width=True)
-            c1, c2, c3 = st.columns(3)
-            c1.metric("Total levé observé", format_number(events["amount"].dropna().sum()))
-            latest_val = events.dropna(subset=["valuation"]).sort_values("event_date").tail(1)
-            c2.metric("Dernière valo observée", format_number(latest_val["valuation"].iloc[0]) if not latest_val.empty else "")
-            c3.metric("Nb événements", len(events))
             funding = events.dropna(subset=["amount"])[["event_date", "amount"]].set_index("event_date")
             valuation = events.dropna(subset=["valuation"])[["event_date", "valuation"]].set_index("event_date")
             if not funding.empty:
@@ -205,6 +206,9 @@ with tabs[5]:
     render_ipo_and_share_view(ipo_events_df, public_market_df)
 
 with tabs[6]:
+    render_product_and_events_view(product_mapping_df, upcoming_events_df)
+
+with tabs[7]:
     st.subheader("Physical AI / Robotics")
     robotics = filtered[filtered["sector"].str.contains("Physical AI", na=False)]
     if robotics.empty:
@@ -216,7 +220,7 @@ with tabs[6]:
         if not robot_chart.empty:
             st.scatter_chart(robot_chart, x="risk_score", y="total_score", size="technical_moat_score")
 
-with tabs[7]:
+with tabs[8]:
     st.subheader("Fiche startup")
     if selected_startup:
         row = df[df["name"] == selected_startup].iloc[0]
