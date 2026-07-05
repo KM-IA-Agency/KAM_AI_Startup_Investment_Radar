@@ -13,12 +13,13 @@ from src.scoring import score_dataframe
 
 DATA_PATH = ROOT / "data" / "seeds" / "startups_seed.csv"
 BENCHMARK_PATH = ROOT / "data" / "seeds" / "benchmark_metrics_seed.csv"
+FINANCIAL_EVENTS_PATH = ROOT / "data" / "seeds" / "financial_events_seed.csv"
 FORECAST_PATH = ROOT / "reports" / "forecasts" / "scenario_forecasts.csv"
 FORECAST_SHORT_PATH = ROOT / "reports" / "forecasts" / "scenario_forecasts_short_term.csv"
 
 st.set_page_config(page_title="KAM AI Startup Radar", layout="wide")
 st.title("KAM AI Startup Investment Radar")
-st.caption("MVP de veille, scoring, benchmark, forecasts et watchlist startup IA / Deeptech")
+st.caption("MVP de veille, scoring, benchmark, forecasts, timelines et watchlist startup IA / Deeptech")
 
 
 def load_from_csv():
@@ -79,6 +80,7 @@ def display_score_metrics(frame):
 
 df, data_source = load_data()
 benchmark_df = load_optional_csv(BENCHMARK_PATH)
+financial_events_df = load_optional_csv(FINANCIAL_EVENTS_PATH)
 forecast_df = load_optional_csv(FORECAST_PATH)
 forecast_short_df = load_optional_csv(FORECAST_SHORT_PATH)
 
@@ -102,7 +104,15 @@ filtered = df[
     & (df["total_score"] >= min_score)
 ]
 
-tabs = st.tabs(["Overview", "Watchlist", "Benchmark", "Forecasts", "Physical AI", "Startup Detail"])
+tabs = st.tabs([
+    "Overview",
+    "Watchlist",
+    "Benchmark",
+    "Forecasts",
+    "Financial Timeline",
+    "Physical AI",
+    "Startup Detail",
+])
 
 with tabs[0]:
     st.subheader("Vue exécutive")
@@ -171,6 +181,46 @@ with tabs[3]:
         st.dataframe(ev[["name", "horizon_months", "expected_value_readable", "confidence"]].head(30), use_container_width=True)
 
 with tabs[4]:
+    st.subheader("Financial Timeline")
+    st.caption("Levées de fonds, valorisations, événements majeurs, IPO éventuelle et scénarios futurs.")
+    if financial_events_df.empty:
+        st.warning("Aucune timeline disponible. Renseigne data/seeds/financial_events_seed.csv.")
+    else:
+        events = financial_events_df[financial_events_df["name"] == selected_startup].copy()
+        if events.empty:
+            st.info("Aucun événement financier pour la startup sélectionnée.")
+        else:
+            events["event_date"] = pd.to_datetime(events["event_date"])
+            events = events.sort_values("event_date")
+            readable_events = add_readable_columns(events, ["amount", "valuation", "share_price"])
+            display_cols = ["event_date", "event_type", "event_title", "amount_readable", "valuation_readable", "currency", "share_price_readable", "ticker", "exchange_name", "confidence_score", "description"]
+            st.dataframe(readable_events[safe_columns(readable_events, display_cols)], use_container_width=True)
+
+            c1, c2, c3 = st.columns(3)
+            c1.metric("Total levé observé", format_number(events["amount"].dropna().sum()))
+            latest_val = events.dropna(subset=["valuation"]).sort_values("event_date").tail(1)
+            c2.metric("Dernière valo observée", format_number(latest_val["valuation"].iloc[0]) if not latest_val.empty else "")
+            c3.metric("Nb événements", len(events))
+
+            funding = events.dropna(subset=["amount"])[["event_date", "amount"]].set_index("event_date")
+            valuation = events.dropna(subset=["valuation"])[["event_date", "valuation"]].set_index("event_date")
+            if not funding.empty:
+                st.markdown("### Levées de fonds")
+                st.bar_chart(funding / 1_000_000_000)
+                st.caption("Axe en milliards. Exemple : 0.675 = 675 M.")
+            if not valuation.empty:
+                st.markdown("### Évolution de la valorisation")
+                st.line_chart(valuation / 1_000_000_000)
+                st.caption("Axe en milliards. Exemple : 13 = 13 Mrd.")
+
+            full_forecast = forecast_df[forecast_df["name"] == selected_startup] if not forecast_df.empty else pd.DataFrame()
+            if not full_forecast.empty:
+                st.markdown("### Valorisation historique + scénarios futurs")
+                pivot = full_forecast.pivot_table(index="horizon_months", columns="scenario_label", values="forecast_value", aggfunc="mean")
+                st.line_chart(pivot / 1_000_000_000)
+                st.caption("Graphique des scénarios futurs. Les valeurs sont hypothétiques.")
+
+with tabs[5]:
     st.subheader("Physical AI / Robotics")
     robotics = filtered[filtered["sector"].str.contains("Physical AI", na=False)]
     if robotics.empty:
@@ -182,7 +232,7 @@ with tabs[4]:
         if not robot_chart.empty:
             st.scatter_chart(robot_chart, x="risk_score", y="total_score", size="technical_moat_score")
 
-with tabs[5]:
+with tabs[6]:
     st.subheader("Fiche startup")
     if selected_startup:
         row = df[df["name"] == selected_startup].iloc[0]
