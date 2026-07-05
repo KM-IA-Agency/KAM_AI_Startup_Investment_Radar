@@ -1,0 +1,19 @@
+name,observed_at,ticker,exchange_name,share_price,market_cap,enterprise_value,currency,source,source_url,confidence_score
+UiPath,2021-04-21,PATH,NYSE,69,, ,USD,ipo_seed,,1
+UiPath,2021-05-21,PATH,NYSE,75,, ,USD,ipo_seed,,1
+UiPath,2021-10-21,PATH,NYSE,54,, ,USD,ipo_seed,,1
+UiPath,2022-04-21,PATH,NYSE,20,, ,USD,ipo_seed,,1
+C3.ai,2020-12-09,AI,NYSE,92.49,, ,USD,ipo_seed,,1
+C3.ai,2021-01-09,AI,NYSE,130,, ,USD,ipo_seed,,1
+C3.ai,2021-06-09,AI,NYSE,62,, ,USD,ipo_seed,,1
+C3.ai,2022-12-09,AI,NYSE,12,, ,USD,ipo_seed,,1
+Arm Holdings,2023-09-14,ARM,Nasdaq,63.59,, ,USD,ipo_seed,,1
+Arm Holdings,2023-10-14,ARM,Nasdaq,54,, ,USD,ipo_seed,,1
+Arm Holdings,2024-03-14,ARM,Nasdaq,125,, ,USD,ipo_seed,,1
+Arm Holdings,2024-09-14,ARM,Nasdaq,140,, ,USD,ipo_seed,,1
+Tempus AI,2024-06-14,TEM,Nasdaq,40.25,, ,USD,ipo_seed,,1
+Tempus AI,2024-07-14,TEM,Nasdaq,38,, ,USD,ipo_seed,,1
+Tempus AI,2024-12-14,TEM,Nasdaq,35,, ,USD,ipo_seed,,1
+Reddit,2024-03-21,RDDT,NYSE,50.44,, ,USD,ipo_seed,,1
+Reddit,2024-04-21,RDDT,NYSE,45,, ,USD,ipo_seed,,1
+Reddit,2024-12-21,RDDT,NYSE,160,, ,USD,ipo_seed,,1
