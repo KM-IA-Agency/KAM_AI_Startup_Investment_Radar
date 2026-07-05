@@ -17,7 +17,20 @@ La différence est importante :
 
 ---
 
-## 2. Données nécessaires pour une vraie prédiction
+## 2. Pourquoi ajouter le court terme ?
+
+Les startups IA, robotique et infrastructure peuvent évoluer très vite : levée de fonds, partenariat industriel, nouveau modèle, changement de valorisation, lancement produit ou contrat stratégique.
+
+Le radar doit donc suivre deux couches :
+
+- **short-term momentum** : 1, 2, 3 et 6 mois ;
+- **long-term scenario** : 12, 36 et 60 mois.
+
+Le court terme ne prédit pas la valeur fondamentale. Il sert à capter l'accélération ou le ralentissement du momentum.
+
+---
+
+## 3. Données nécessaires pour une vraie prédiction
 
 Pour améliorer la fiabilité, il faut plusieurs séries historiques :
 
@@ -39,7 +52,7 @@ Le minimum utile : 6 à 12 mois d'observations. Le bon niveau : 24 à 36 mois.
 
 ---
 
-## 3. Méthode MVP retenue
+## 4. Méthode MVP retenue
 
 Le module `src/forecasting.py` utilise une approche de scénarios :
 
@@ -47,7 +60,14 @@ Le module `src/forecasting.py` utilise une approche de scénarios :
 - **Base** : continuité raisonnable des signaux actuels ;
 - **Bull** : forte accélération, traction confirmée.
 
-Horizon :
+Horizons court terme :
+
+- 1 mois ;
+- 2 mois ;
+- 3 mois ;
+- 6 mois.
+
+Horizons long terme :
 
 - 12 mois ;
 - 36 mois ;
@@ -59,7 +79,7 @@ Métrique principale MVP :
 
 ---
 
-## 4. Variables utilisées dans le MVP
+## 5. Variables utilisées dans le MVP
 
 Le moteur utilise des proxies :
 
@@ -70,11 +90,17 @@ Le moteur utilise des proxies :
 - secteur ;
 - data confidence.
 
-Si aucune donnée de croissance fiable n'existe, le moteur applique une hypothèse sectorielle par défaut.
+Pour les horizons 1 à 6 mois, un boost prudent de momentum peut être appliqué aux secteurs très rapides :
+
+- Physical AI / Robotics ;
+- AI Infrastructure ;
+- GPU Cloud.
+
+Ce boost doit être remplacé plus tard par de vrais signaux quotidiens et hebdomadaires.
 
 ---
 
-## 5. Sorties générées
+## 6. Sorties générées
 
 Commande :
 
@@ -86,13 +112,16 @@ Sorties :
 
 ```text
 reports/forecasts/scenario_forecasts.csv
+reports/forecasts/scenario_forecasts_short_term.csv
 reports/forecasts/expected_values.csv
-reports/forecasts/forecast_<startup>.png
+reports/forecasts/expected_values_short_term.csv
+reports/forecasts/forecast_<startup>_full.png
+reports/forecasts/forecast_<startup>_short_term.png
 ```
 
 ---
 
-## 6. Interprétation
+## 7. Interprétation
 
 Le résultat ne doit jamais être lu comme une vérité.
 
@@ -103,9 +132,11 @@ Il faut lire les scénarios ainsi :
 - si le scénario bull se réalise, la valeur pourrait aller vers Z ;
 - l'expected value combine ces scénarios avec des probabilités arbitraires à ajuster.
 
+Le court terme doit être interprété comme **momentum forecast**, pas comme valorisation fondamentale.
+
 ---
 
-## 7. Limites
+## 8. Limites
 
 - Les données privées sont souvent incomplètes.
 - Les valorisations peuvent être anciennes ou non confirmées.
@@ -113,10 +144,11 @@ Il faut lire les scénarios ainsi :
 - Les startups hardware/robotique nécessitent beaucoup de capital.
 - Les bulles peuvent gonfler les valorisations malgré une faible traction.
 - Les scénarios doivent être revus à chaque nouveau signal.
+- Le court terme est sensible aux annonces et au bruit médiatique.
 
 ---
 
-## 8. Prochaine amélioration
+## 9. Prochaine amélioration
 
 Ajouter un `Forecast Confidence Score` basé sur :
 
@@ -125,11 +157,12 @@ Ajouter un `Forecast Confidence Score` basé sur :
 - historique disponible ;
 - cohérence entre CA, effectifs, funding et clients ;
 - volatilité du secteur ;
-- risque de valorisation excessive.
+- risque de valorisation excessive ;
+- intensité du momentum sur 7, 30 et 90 jours.
 
 ---
 
-## 9. Position recommandée
+## 10. Position recommandée
 
 Le radar doit afficher :
 
