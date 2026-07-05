@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT))
 
 from src.db import get_engine
+from src.formatting import add_readable_columns, format_number, format_percent
 from src.scoring import score_dataframe
 
 DATA_PATH = ROOT / "data" / "seeds" / "startups_seed.csv"
@@ -16,44 +17,24 @@ FORECAST_PATH = ROOT / "reports" / "forecasts" / "scenario_forecasts.csv"
 FORECAST_SHORT_PATH = ROOT / "reports" / "forecasts" / "scenario_forecasts_short_term.csv"
 
 st.set_page_config(page_title="KAM AI Startup Radar", layout="wide")
-
 st.title("KAM AI Startup Investment Radar")
 st.caption("MVP de veille, scoring, benchmark, forecasts et watchlist startup IA / Deeptech")
 
 
 def load_from_csv():
-    df = pd.read_csv(DATA_PATH)
-    scored = score_dataframe(df)
-    return scored, "CSV seed"
+    return score_dataframe(pd.read_csv(DATA_PATH)), "CSV seed"
 
 
 def load_from_database():
     engine = get_engine()
     query = """
-    SELECT
-        s.name,
-        s.website,
-        s.country,
-        s.region,
-        s.sector,
-        s.sub_sector,
-        s.stage,
-        s.description,
-        s.source_url,
-        sc.market_score,
-        sc.problem_pain_score,
-        sc.product_maturity_score,
-        sc.traction_score,
-        sc.team_score,
-        sc.technical_moat_score,
-        sc.valuation_score,
-        sc.investor_quality_score,
-        sc.exit_potential_score,
-        sc.risk_score,
-        sc.kamel_edge_score,
-        sc.total_score,
-        sc.decision,
-        sc.score_explanation
+    SELECT s.name, s.website, s.country, s.region, s.sector, s.sub_sector,
+           s.stage, s.description, s.source_url,
+           sc.market_score, sc.problem_pain_score, sc.product_maturity_score,
+           sc.traction_score, sc.team_score, sc.technical_moat_score,
+           sc.valuation_score, sc.investor_quality_score, sc.exit_potential_score,
+           sc.risk_score, sc.kamel_edge_score, sc.total_score, sc.decision,
+           sc.score_explanation
     FROM startups s
     LEFT JOIN scores sc ON sc.startup_id = s.id
     """
@@ -72,27 +53,19 @@ def load_data():
 
 
 @st.cache_data
-def load_benchmark():
-    if BENCHMARK_PATH.exists():
-        return pd.read_csv(BENCHMARK_PATH)
-    return pd.DataFrame()
-
-
-@st.cache_data
-def load_forecasts(short_term=False):
-    path = FORECAST_SHORT_PATH if short_term else FORECAST_PATH
-    if path.exists():
-        return pd.read_csv(path)
-    return pd.DataFrame()
+def load_optional_csv(path):
+    return pd.read_csv(path) if Path(path).exists() else pd.DataFrame()
 
 
 def metric_value(df, column, default=0):
     if df.empty or column not in df.columns:
         return default
     value = df[column].mean()
-    if pd.isna(value):
-        return default
-    return round(value, 1)
+    return default if pd.isna(value) else round(value, 1)
+
+
+def safe_columns(frame, columns):
+    return [col for col in columns if col in frame.columns]
 
 
 def display_score_metrics(frame):
@@ -104,19 +77,10 @@ def display_score_metrics(frame):
     c5.metric("Risque moy.", metric_value(frame, "risk_score"))
 
 
-def safe_columns(frame, columns):
-    return [col for col in columns if col in frame.columns]
-
-
-try:
-    df, data_source = load_data()
-except Exception as exc:
-    st.error(f"Impossible de charger le dataset: {exc}")
-    st.stop()
-
-benchmark_df = load_benchmark()
-forecast_df = load_forecasts(short_term=False)
-forecast_short_df = load_forecasts(short_term=True)
+df, data_source = load_data()
+benchmark_df = load_optional_csv(BENCHMARK_PATH)
+forecast_df = load_optional_csv(FORECAST_PATH)
+forecast_short_df = load_optional_csv(FORECAST_SHORT_PATH)
 
 st.info(f"Source de données active : {data_source}")
 
@@ -125,7 +89,6 @@ with st.sidebar:
     countries = sorted(df["country"].dropna().unique().tolist())
     sectors = sorted(df["sector"].dropna().unique().tolist())
     decisions = sorted(df["decision"].dropna().unique().tolist())
-
     selected_countries = st.multiselect("Pays", countries, default=countries)
     selected_sectors = st.multiselect("Secteurs", sectors, default=sectors)
     selected_decisions = st.multiselect("Décisions", decisions, default=decisions)
@@ -139,19 +102,11 @@ filtered = df[
     & (df["total_score"] >= min_score)
 ]
 
-tab_overview, tab_watchlist, tab_benchmark, tab_forecast, tab_robotics, tab_detail = st.tabs([
-    "Overview",
-    "Watchlist",
-    "Benchmark",
-    "Forecasts",
-    "Physical AI",
-    "Startup Detail",
-])
+tabs = st.tabs(["Overview", "Watchlist", "Benchmark", "Forecasts", "Physical AI", "Startup Detail"])
 
-with tab_overview:
+with tabs[0]:
     st.subheader("Vue exécutive")
     display_score_metrics(filtered)
-
     left, right = st.columns(2)
     with left:
         st.markdown("### Répartition par secteur")
@@ -160,107 +115,74 @@ with tab_overview:
         st.bar_chart(sector_counts.set_index("sector"))
     with right:
         st.markdown("### Score moyen par secteur")
-        sector_score = filtered.groupby("sector")["total_score"].mean().sort_values(ascending=False)
-        st.bar_chart(sector_score)
-
+        st.bar_chart(filtered.groupby("sector")["total_score"].mean().sort_values(ascending=False))
     st.markdown("### Top opportunités")
-    st.dataframe(
-        filtered.head(10)[safe_columns(filtered, ["name", "country", "sector", "sub_sector", "stage", "total_score", "kamel_edge_score", "risk_score", "decision"])],
-        use_container_width=True,
-    )
+    st.dataframe(filtered.head(10)[safe_columns(filtered, ["name", "country", "sector", "sub_sector", "stage", "total_score", "kamel_edge_score", "risk_score", "decision"])], use_container_width=True)
 
-with tab_watchlist:
+with tabs[1]:
     st.subheader("Watchlist filtrable")
-    st.dataframe(
-        filtered[safe_columns(filtered, [
-            "name", "country", "region", "sector", "sub_sector", "stage", "total_score",
-            "market_score", "traction_score", "technical_moat_score", "valuation_score",
-            "risk_score", "kamel_edge_score", "decision", "website"
-        ])],
-        use_container_width=True,
-    )
-
+    watch_cols = ["name", "country", "region", "sector", "sub_sector", "stage", "total_score", "market_score", "traction_score", "technical_moat_score", "valuation_score", "risk_score", "kamel_edge_score", "decision", "website"]
+    st.dataframe(filtered[safe_columns(filtered, watch_cols)], use_container_width=True)
     st.markdown("### Comparaison score vs risque")
     chart_df = filtered[["name", "total_score", "risk_score", "kamel_edge_score"]].dropna().set_index("name")
     if not chart_df.empty:
         st.scatter_chart(chart_df, x="risk_score", y="total_score", size="kamel_edge_score")
 
-with tab_benchmark:
+with tabs[2]:
     st.subheader("Benchmark classique : CA, valorisation, funding, croissance")
     if benchmark_df.empty:
         st.warning("Aucun benchmark disponible. Lance ou renseigne data/seeds/benchmark_metrics_seed.csv.")
     else:
         merged = filtered[["name", "sector", "total_score", "risk_score", "kamel_edge_score", "decision"]].merge(benchmark_df, on="name", how="left")
         b1, b2, b3, b4 = st.columns(4)
-        b1.metric("Valorisation moy.", round(merged["valuation_latest"].dropna().mean() / 1_000_000_000, 2) if "valuation_latest" in merged else 0)
-        b2.metric("Funding moyen", round(merged["total_funding"].dropna().mean() / 1_000_000_000, 2) if "total_funding" in merged else 0)
-        b3.metric("Croissance effectifs moy.", metric_value(merged, "employee_growth_6m_pct"))
+        b1.metric("Valorisation moy.", format_number(merged["valuation_latest"].dropna().mean()))
+        b2.metric("Funding moyen", format_number(merged["total_funding"].dropna().mean()))
+        b3.metric("Croissance effectifs moy.", format_percent(metric_value(merged, "employee_growth_6m_pct")))
         b4.metric("Confiance données", metric_value(merged, "data_confidence"))
+        money_cols = ["valuation_latest", "total_funding", "latest_round_amount", "revenue_latest"]
+        pct_cols = ["employee_growth_6m_pct", "revenue_growth_yoy_pct"]
+        readable = add_readable_columns(merged, money_cols, pct_cols)
+        display_cols = ["name", "sector", "total_score", "risk_score", "valuation_latest_readable", "valuation_date", "total_funding_readable", "latest_round_amount_readable", "employees_latest", "employee_growth_6m_pct_readable", "revenue_latest_readable", "revenue_growth_yoy_pct_readable", "data_confidence", "notes"]
+        st.dataframe(readable[safe_columns(readable, display_cols)], use_container_width=True)
+        st.caption("Les colonnes financières sont affichées en k / M / Mrd pour faciliter la lecture.")
 
-        st.markdown("### Tableau benchmark")
-        st.dataframe(
-            merged[safe_columns(merged, [
-                "name", "sector", "total_score", "risk_score", "valuation_latest", "valuation_date",
-                "total_funding", "latest_round_amount", "employees_latest", "employee_growth_6m_pct",
-                "revenue_latest", "revenue_growth_yoy_pct", "data_confidence", "notes"
-            ])].sort_values("valuation_latest", ascending=False, na_position="last"),
-            use_container_width=True,
-        )
-
-        st.markdown("### Top valorisations")
-        val_chart = merged.dropna(subset=["valuation_latest"])[["name", "valuation_latest"]].sort_values("valuation_latest", ascending=False).head(15)
-        if not val_chart.empty:
-            st.bar_chart(val_chart.set_index("name") / 1_000_000_000)
-
-with tab_forecast:
+with tabs[3]:
     st.subheader("Scénarios prévisionnels")
-    st.caption("Ces résultats sont des scénarios, pas des prédictions certaines ni des conseils financiers.")
-
-    selected_forecast_view = st.radio("Vue", ["Court terme 1/2/3/6 mois", "Complet 1 à 60 mois"], horizontal=True)
-    active_forecast = forecast_short_df if selected_forecast_view.startswith("Court") else forecast_df
-
+    st.caption("Scénarios, pas prédictions certaines ni conseils financiers.")
+    selected_view = st.radio("Vue", ["Court terme 1/2/3/6 mois", "Complet 1 à 60 mois"], horizontal=True)
+    active_forecast = forecast_short_df if selected_view.startswith("Court") else forecast_df
     if active_forecast.empty:
         st.warning("Aucun forecast généré. Lance `python src/forecasting.py`.")
     else:
-        focus_forecast = active_forecast[active_forecast["name"] == selected_startup]
-        if focus_forecast.empty:
-            st.info("Pas de forecast pour la startup sélectionnée.")
-        else:
-            st.markdown(f"### Forecast — {selected_startup}")
-            st.dataframe(
-                focus_forecast[safe_columns(focus_forecast, [
-                    "horizon_months", "scenario_label", "metric_name", "current_value", "forecast_value",
-                    "implied_cagr_pct", "probability_pct", "confidence_score", "assumptions"
-                ])].sort_values(["horizon_months", "scenario_label"]),
-                use_container_width=True,
-            )
-            pivot = focus_forecast.pivot_table(index="horizon_months", columns="scenario_label", values="forecast_value", aggfunc="mean")
+        focus = active_forecast[active_forecast["name"] == selected_startup]
+        if not focus.empty:
+            focus_readable = add_readable_columns(focus, ["current_value", "forecast_value"])
+            cols = ["horizon_months", "scenario_label", "metric_name", "current_value_readable", "forecast_value_readable", "implied_cagr_pct", "probability_pct", "confidence_score", "assumptions"]
+            st.dataframe(focus_readable[safe_columns(focus_readable, cols)], use_container_width=True)
+            pivot = focus.pivot_table(index="horizon_months", columns="scenario_label", values="forecast_value", aggfunc="mean")
             if not pivot.empty:
                 st.line_chart(pivot / 1_000_000_000)
-
-        st.markdown("### Expected value — Top startups")
+                st.caption("Axe en milliards. Exemple : 13 = 13 Mrd.")
         ev = active_forecast.copy()
         ev["weighted_value"] = ev["forecast_value"] * (ev["probability_pct"] / 100)
         ev = ev.groupby(["name", "horizon_months"]).agg(expected_value=("weighted_value", "sum"), confidence=("confidence_score", "mean")).reset_index()
-        st.dataframe(ev.sort_values(["horizon_months", "expected_value"], ascending=[True, False]).head(30), use_container_width=True)
+        ev["expected_value_readable"] = ev["expected_value"].apply(format_number)
+        st.markdown("### Expected value — Top startups")
+        st.dataframe(ev[["name", "horizon_months", "expected_value_readable", "confidence"]].head(30), use_container_width=True)
 
-with tab_robotics:
+with tabs[4]:
     st.subheader("Physical AI / Robotics")
     robotics = filtered[filtered["sector"].str.contains("Physical AI", na=False)]
     if robotics.empty:
         st.info("Aucune startup Physical AI dans le filtre actuel.")
     else:
         display_score_metrics(robotics)
-        st.dataframe(
-            robotics[safe_columns(robotics, ["name", "country", "sub_sector", "stage", "total_score", "technical_moat_score", "risk_score", "kamel_edge_score", "decision"])],
-            use_container_width=True,
-        )
-        st.markdown("### Score vs risque — Robotique")
+        st.dataframe(robotics[safe_columns(robotics, ["name", "country", "sub_sector", "stage", "total_score", "technical_moat_score", "risk_score", "kamel_edge_score", "decision"])], use_container_width=True)
         robot_chart = robotics[["name", "total_score", "risk_score", "technical_moat_score"]].dropna().set_index("name")
         if not robot_chart.empty:
             st.scatter_chart(robot_chart, x="risk_score", y="total_score", size="technical_moat_score")
 
-with tab_detail:
+with tabs[5]:
     st.subheader("Fiche startup")
     if selected_startup:
         row = df[df["name"] == selected_startup].iloc[0]
@@ -273,6 +195,15 @@ with tab_detail:
         d.metric("Moat tech", int(row.get("technical_moat_score", 0)))
         st.markdown("**Décision :** " + str(row["decision"]))
         st.markdown("**Explication :** " + str(row["score_explanation"]))
+        detail_benchmark = benchmark_df[benchmark_df["name"] == selected_startup] if not benchmark_df.empty else pd.DataFrame()
+        if not detail_benchmark.empty:
+            bmk = detail_benchmark.iloc[0]
+            st.markdown("### Chiffres clés")
+            k1, k2, k3, k4 = st.columns(4)
+            k1.metric("Valorisation", format_number(bmk.get("valuation_latest")))
+            k2.metric("Funding total", format_number(bmk.get("total_funding")))
+            k3.metric("Dernier round", format_number(bmk.get("latest_round_amount")))
+            k4.metric("Effectifs", format_number(bmk.get("employees_latest")))
         st.markdown("**Site / source :**")
         st.write(row.get("website", ""))
         st.write(row.get("source_url", ""))
