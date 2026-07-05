@@ -40,6 +40,43 @@ CREATE TABLE IF NOT EXISTS funding_rounds (
     source_url TEXT
 );
 
+CREATE TABLE IF NOT EXISTS benchmark_metrics (
+    startup_id INTEGER PRIMARY KEY REFERENCES startups(id),
+    currency TEXT DEFAULT 'USD',
+    revenue_latest NUMERIC,
+    revenue_period TEXT,
+    revenue_growth_yoy_pct NUMERIC,
+    revenue_growth_qoq_pct NUMERIC,
+    valuation_latest NUMERIC,
+    valuation_date DATE,
+    total_funding NUMERIC,
+    latest_round_amount NUMERIC,
+    latest_round_date DATE,
+    employees_latest INTEGER,
+    employee_growth_6m_pct NUMERIC,
+    web_traffic_growth_3m_pct NUMERIC,
+    github_stars INTEGER,
+    github_stars_growth_3m_pct NUMERIC,
+    customer_count_estimate INTEGER,
+    data_confidence INTEGER,
+    notes TEXT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS metric_observations (
+    id INTEGER PRIMARY KEY,
+    startup_id INTEGER REFERENCES startups(id),
+    observed_at TIMESTAMP NOT NULL,
+    period_type TEXT NOT NULL,
+    metric_name TEXT NOT NULL,
+    metric_value NUMERIC,
+    metric_unit TEXT,
+    source TEXT,
+    source_url TEXT,
+    confidence_score INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS signals (
     id INTEGER PRIMARY KEY,
     startup_id INTEGER REFERENCES startups(id),
@@ -97,3 +134,5 @@ CREATE INDEX IF NOT EXISTS idx_startups_stage ON startups(stage);
 CREATE INDEX IF NOT EXISTS idx_scores_total_score ON scores(total_score DESC);
 CREATE INDEX IF NOT EXISTS idx_scores_decision ON scores(decision);
 CREATE INDEX IF NOT EXISTS idx_signals_startup_date ON signals(startup_id, signal_date DESC);
+CREATE INDEX IF NOT EXISTS idx_metric_observations_startup_metric ON metric_observations(startup_id, metric_name, observed_at DESC);
+CREATE INDEX IF NOT EXISTS idx_metric_observations_period ON metric_observations(period_type, observed_at DESC);
