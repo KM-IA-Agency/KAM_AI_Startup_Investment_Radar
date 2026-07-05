@@ -77,6 +77,22 @@ CREATE TABLE IF NOT EXISTS metric_observations (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS scenario_forecasts (
+    id INTEGER PRIMARY KEY,
+    startup_id INTEGER REFERENCES startups(id),
+    forecast_date DATE NOT NULL,
+    horizon_months INTEGER NOT NULL,
+    scenario TEXT NOT NULL,
+    metric_name TEXT NOT NULL,
+    current_value NUMERIC,
+    forecast_value NUMERIC,
+    implied_cagr_pct NUMERIC,
+    probability_pct NUMERIC,
+    confidence_score INTEGER,
+    assumptions TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS signals (
     id INTEGER PRIMARY KEY,
     startup_id INTEGER REFERENCES startups(id),
@@ -136,3 +152,4 @@ CREATE INDEX IF NOT EXISTS idx_scores_decision ON scores(decision);
 CREATE INDEX IF NOT EXISTS idx_signals_startup_date ON signals(startup_id, signal_date DESC);
 CREATE INDEX IF NOT EXISTS idx_metric_observations_startup_metric ON metric_observations(startup_id, metric_name, observed_at DESC);
 CREATE INDEX IF NOT EXISTS idx_metric_observations_period ON metric_observations(period_type, observed_at DESC);
+CREATE INDEX IF NOT EXISTS idx_scenario_forecasts_startup ON scenario_forecasts(startup_id, metric_name, horizon_months, scenario);
