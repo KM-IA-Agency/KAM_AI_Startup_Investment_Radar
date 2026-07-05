@@ -1,0 +1,211 @@
+name,forecast_date,horizon_months,horizon_bucket,scenario,scenario_label,metric_name,current_value,forecast_value,implied_cagr_pct,probability_pct,confidence_score,assumptions
+Figure AI,2026-07-05,1,short_term,bear,Pessimistic,valuation_latest,39000000000.0,40706862458.86159,67.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,1,short_term,base,Base,valuation_latest,39000000000.0,41520183297.18495,112.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,1,short_term,bull,Optimistic,valuation_latest,39000000000.0,42757983805.990906,201.6,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,2,short_term,bear,Pessimistic,valuation_latest,39000000000.0,42488426954.99166,67.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,2,short_term,base,Base,valuation_latest,39000000000.0,44203221052.098366,112.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,2,short_term,bull,Optimistic,valuation_latest,39000000000.0,46878081516.75335,201.6,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,3,short_term,bear,Pessimistic,valuation_latest,39000000000.0,44347962875.647,67.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,3,short_term,base,Base,valuation_latest,39000000000.0,47059636933.566895,112.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,3,short_term,bull,Optimistic,valuation_latest,39000000000.0,51395185906.39132,201.6,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,6,short_term,bear,Pessimistic,valuation_latest,39000000000.0,50429277210.7632,67.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,6,short_term,base,Base,valuation_latest,39000000000.0,56784857136.38805,112.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,6,short_term,bull,Optimistic,valuation_latest,39000000000.0,67729875239.80832,201.6,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,12,long_term,bear,Pessimistic,valuation_latest,39000000000.0,65208000000.00001,67.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,12,long_term,base,Base,valuation_latest,39000000000.0,82680000000.0,112.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,12,long_term,bull,Optimistic,valuation_latest,39000000000.0,117624000000.0,201.6,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,36,long_term,bear,Pessimistic,valuation_latest,39000000000.0,182294441472.00003,67.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,36,long_term,base,Base,valuation_latest,39000000000.0,371596992000.0,112.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,36,long_term,bull,Optimistic,valuation_latest,39000000000.0,1069938015744.0,201.6,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,60,long_term,bear,Pessimistic,valuation_latest,39000000000.0,509619423868.05994,67.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,60,long_term,base,Base,valuation_latest,39000000000.0,1670105520844.8003,112.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Figure AI,2026-07-05,60,long_term,bull,Optimistic,valuation_latest,39000000000.0,9732430095339.455,201.6,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,1,short_term,bear,Pessimistic,valuation_latest,2400000000.0,2494300554.2485933,58.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,1,short_term,base,Base,valuation_latest,2400000000.0,2540582726.025297,98.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,1,short_term,bull,Optimistic,valuation_latest,2400000000.0,2612197913.7709637,176.4,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,2,short_term,bear,Pessimistic,valuation_latest,2400000000.0,2592306356.218683,58.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,2,short_term,base,Base,valuation_latest,2400000000.0,2689400244.907554,98.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,2,short_term,bull,Optimistic,valuation_latest,2400000000.0,2843157475.2955737,176.4,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,3,short_term,bear,Pessimistic,valuation_latest,2400000000.0,2694162992.124338,58.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,3,short_term,base,Base,valuation_latest,2400000000.0,2846934918.991807,98.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,3,short_term,bull,Optimistic,valuation_latest,2400000000.0,3094537510.6205907,176.4,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,6,short_term,bear,Pessimistic,valuation_latest,2400000000.0,3024380928.388486,58.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,6,short_term,base,Base,valuation_latest,2400000000.0,3377099347.0728693,98.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,6,short_term,bull,Optimistic,valuation_latest,2400000000.0,3990067668.5991178,176.4,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,12,long_term,bear,Pessimistic,valuation_latest,2400000000.0,3811200000.0,58.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,12,long_term,base,Base,valuation_latest,2400000000.0,4752000000.0,98.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,12,long_term,bull,Optimistic,valuation_latest,2400000000.0,6633600000.000001,176.4,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,36,long_term,bear,Pessimistic,valuation_latest,2400000000.0,9610870732.800001,58.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,36,long_term,base,Base,valuation_latest,2400000000.0,18629740800.0,98.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,36,long_term,bull,Optimistic,valuation_latest,2400000000.0,50678687385.60001,176.4,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,60,long_term,bear,Pessimistic,valuation_latest,2400000000.0,24236155605.21401,58.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,60,long_term,base,Base,valuation_latest,2400000000.0,73036035832.31999,98.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Physical Intelligence,2026-07-05,60,long_term,bull,Optimistic,valuation_latest,2400000000.0,387169765305.019,176.4,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,1,short_term,bear,Pessimistic,valuation_latest,4000000000.0,4138382647.2010927,50.4,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,1,short_term,base,Base,valuation_latest,4000000000.0,4208507866.053558,84.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,1,short_term,bull,Optimistic,valuation_latest,4000000000.0,4319116922.060084,151.20000000000002,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,2,short_term,bear,Pessimistic,valuation_latest,4000000000.0,4281552733.6637816,50.4,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,2,short_term,base,Base,valuation_latest,4000000000.0,4427884614.658667,84.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,2,short_term,bull,Optimistic,valuation_latest,4000000000.0,4663692746.606444,151.20000000000002,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,3,short_term,bear,Pessimistic,valuation_latest,4000000000.0,4429675884.017649,50.4,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,3,short_term,base,Base,valuation_latest,4000000000.0,4658696807.692132,84.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,3,short_term,bull,Optimistic,valuation_latest,4000000000.0,5035758565.289192,151.20000000000002,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,6,short_term,bear,Pessimistic,valuation_latest,4000000000.0,4905507109.361885,50.4,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,6,short_term,base,Base,valuation_latest,4000000000.0,5425863986.500215,84.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,6,short_term,bull,Optimistic,valuation_latest,4000000000.0,6339716081.970864,151.20000000000002,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,12,long_term,bear,Pessimistic,valuation_latest,4000000000.0,6016000000.0,50.4,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,12,long_term,base,Base,valuation_latest,4000000000.0,7359999999.999999,84.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,12,long_term,bull,Optimistic,valuation_latest,4000000000.0,10048000000.000002,151.20000000000002,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,36,long_term,bear,Pessimistic,valuation_latest,4000000000.0,13608288256.0,50.4,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,36,long_term,base,Base,valuation_latest,4000000000.0,24918015999.999996,84.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,36,long_term,bull,Optimistic,valuation_latest,4000000000.0,63404326912.00004,151.20000000000002,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,60,long_term,bear,Pessimistic,valuation_latest,4000000000.0,30782165767.684093,50.4,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,60,long_term,base,Base,valuation_latest,4000000000.0,84362434969.59998,84.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Skild AI,2026-07-05,60,long_term,bull,Optimistic,valuation_latest,4000000000.0,400090433037.79565,151.20000000000002,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,1,short_term,bear,Pessimistic,valuation_latest,2500000000.0,2561084337.4653034,33.6,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,1,short_term,base,Base,valuation_latest,2500000000.0,2594380821.3190565,56.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,1,short_term,bull,Optimistic,valuation_latest,2500000000.0,2649539007.310489,100.8,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,2,short_term,bear,Pessimistic,valuation_latest,2500000000.0,2623661193.4440374,33.6,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,2,short_term,base,Base,valuation_latest,2500000000.0,2692324738.4112577,56.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,2,short_term,bull,Optimistic,valuation_latest,2500000000.0,2808022780.503941,100.8,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,3,short_term,bear,Pessimistic,valuation_latest,2500000000.0,2687767035.738021,33.6,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,3,short_term,base,Base,valuation_latest,2500000000.0,2793966266.4388056,56.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,3,short_term,bull,Optimistic,valuation_latest,2500000000.0,2975986356.144661,100.8,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,6,short_term,bear,Pessimistic,valuation_latest,2500000000.0,2889636655.3599777,33.6,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,6,short_term,base,Base,valuation_latest,2500000000.0,3122498999.199199,56.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,6,short_term,bull,Optimistic,valuation_latest,2500000000.0,3542597916.7836704,100.8,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,12,long_term,bear,Pessimistic,valuation_latest,2500000000.0,3340000000.0,33.6,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,12,long_term,base,Base,valuation_latest,2500000000.0,3900000000.0,56.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,12,long_term,bull,Optimistic,valuation_latest,2500000000.0,5020000000.0,100.8,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,36,long_term,bear,Pessimistic,valuation_latest,2500000000.0,5961552640.000001,33.6,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,36,long_term,base,Base,valuation_latest,2500000000.0,9491040000.0,56.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,36,long_term,bull,Optimistic,valuation_latest,2500000000.0,20240961280.0,100.8,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,60,long_term,bear,Pessimistic,valuation_latest,2500000000.0,10640751460.925444,33.6,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,60,long_term,base,Base,valuation_latest,2500000000.0,23097394944.000004,56.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+1X Technologies,2026-07-05,60,long_term,bull,Optimistic,valuation_latest,2500000000.0,81612851302.48192,100.8,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,1,short_term,bear,Pessimistic,valuation_latest,1500000000.0,1540619393.5349135,37.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,1,short_term,base,Base,valuation_latest,1500000000.0,1562332831.9347055,62.99999999999999,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,1,short_term,bull,Optimistic,valuation_latest,1500000000.0,1597806291.8009841,113.39999999999999,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,2,short_term,bear,Pessimistic,valuation_latest,1500000000.0,1582338743.8239233,37.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,2,short_term,base,Base,valuation_latest,1500000000.0,1627255918.494078,62.99999999999999,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,2,short_term,bull,Optimistic,valuation_latest,1500000000.0,1701989964.0792077,113.39999999999999,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,3,short_term,bear,Pessimistic,valuation_latest,1500000000.0,1625187837.2512064,37.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,3,short_term,base,Base,valuation_latest,1500000000.0,1694876898.282242,62.99999999999999,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,3,short_term,bull,Optimistic,valuation_latest,1500000000.0,1812966848.7919261,113.39999999999999,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,6,short_term,bear,Pessimistic,valuation_latest,1500000000.0,1760823670.8995025,37.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,6,short_term,base,Base,valuation_latest,1500000000.0,1915071800.2205558,62.99999999999999,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,6,short_term,bull,Optimistic,valuation_latest,1500000000.0,2191232529.879018,113.39999999999999,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,12,long_term,bear,Pessimistic,valuation_latest,1500000000.0,2066999999.9999998,37.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,12,long_term,base,Base,valuation_latest,1500000000.0,2445000000.0,62.99999999999999,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,12,long_term,bull,Optimistic,valuation_latest,1500000000.0,3201000000.0,113.39999999999999,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,36,long_term,bear,Pessimistic,valuation_latest,1500000000.0,3924993227.999999,37.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,36,long_term,base,Base,valuation_latest,1500000000.0,6496120499.999998,62.99999999999999,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,36,long_term,bull,Optimistic,valuation_latest,1500000000.0,14577213155.999998,113.39999999999999,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,60,long_term,bear,Pessimistic,valuation_latest,1500000000.0,7453106840.757549,37.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,60,long_term,base,Base,valuation_latest,1500000000.0,17259542556.449993,62.99999999999999,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Apptronik,2026-07-05,60,long_term,bull,Optimistic,valuation_latest,1500000000.0,66383987315.04512,113.39999999999999,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,1,short_term,bear,Pessimistic,valuation_latest,1000000000.0,1016011867.7733873,21.0,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,1,short_term,base,Base,valuation_latest,1000000000.0,1025324057.2484438,35.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,1,short_term,bull,Optimistic,valuation_latest,1000000000.0,1041555221.2898036,63.0,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,2,short_term,bear,Pessimistic,valuation_latest,1000000000.0,1032280115.4563673,21.0,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,2,short_term,base,Base,valuation_latest,1000000000.0,1051289422.3724103,35.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,2,short_term,bull,Optimistic,valuation_latest,1000000000.0,1084837278.9960518,63.0,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,3,short_term,bear,Pessimistic,valuation_latest,1000000000.0,1048808848.1701516,21.0,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,3,short_term,base,Base,valuation_latest,1000000000.0,1077912335.8892527,35.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,3,short_term,bull,Optimistic,valuation_latest,1000000000.0,1129917932.1881614,63.0,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,6,short_term,bear,Pessimistic,valuation_latest,1000000000.0,1100000000.0,21.0,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,6,short_term,base,Base,valuation_latest,1000000000.0,1161895003.862225,35.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,6,short_term,bull,Optimistic,valuation_latest,1000000000.0,1276714533.4803705,63.0,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,12,long_term,bear,Pessimistic,valuation_latest,1000000000.0,1210000000.0,21.0,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,12,long_term,base,Base,valuation_latest,1000000000.0,1350000000.0,35.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,12,long_term,bull,Optimistic,valuation_latest,1000000000.0,1630000000.0,63.0,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,36,long_term,bear,Pessimistic,valuation_latest,1000000000.0,1771561000.0,21.0,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,36,long_term,base,Base,valuation_latest,1000000000.0,2460375000.0000005,35.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,36,long_term,bull,Optimistic,valuation_latest,1000000000.0,4330746999.999999,63.0,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,60,long_term,bear,Pessimistic,valuation_latest,1000000000.0,2593742460.0999994,21.0,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,60,long_term,base,Base,valuation_latest,1000000000.0,4484033437.500002,35.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Agility Robotics,2026-07-05,60,long_term,bull,Optimistic,valuation_latest,1000000000.0,11506361704.299995,63.0,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,1,short_term,bear,Pessimistic,valuation_latest,6000000000.0,6177915242.74248,42.0,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,1,short_term,base,Base,valuation_latest,6000000000.0,6271267517.71766,70.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,1,short_term,bull,Optimistic,valuation_latest,6000000000.0,6421851918.9569,126.0,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,2,short_term,bear,Pessimistic,valuation_latest,6000000000.0,6361106124.418312,42.0,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,2,short_term,base,Base,valuation_latest,6000000000.0,6554799379.79677,70.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,2,short_term,bull,Optimistic,valuation_latest,6000000000.0,6873363678.168403,126.0,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,3,short_term,bear,Pessimistic,valuation_latest,6000000000.0,6549729081.124405,42.0,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,3,short_term,base,Base,valuation_latest,6000000000.0,6851150072.612559,70.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,3,short_term,bull,Optimistic,valuation_latest,6000000000.0,7356620621.055735,126.0,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,6,short_term,bear,Pessimistic,valuation_latest,6000000000.0,7149825172.68779,42.0,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,6,short_term,base,Base,valuation_latest,6000000000.0,7823042886.243178,70.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,6,short_term,bull,Optimistic,valuation_latest,6000000000.0,9019977827.023745,126.0,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,12,long_term,bear,Pessimistic,valuation_latest,6000000000.0,8520000000.0,42.0,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,12,long_term,base,Base,valuation_latest,6000000000.0,10200000000.0,70.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,12,long_term,bull,Optimistic,valuation_latest,6000000000.0,13559999999.999998,126.0,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,36,long_term,bear,Pessimistic,valuation_latest,6000000000.0,17179727999.999996,42.0,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,36,long_term,base,Base,valuation_latest,6000000000.0,29477999999.999996,70.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,36,long_term,bull,Optimistic,valuation_latest,6000000000.0,69259055999.99998,126.0,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,60,long_term,bear,Pessimistic,valuation_latest,6000000000.0,34641203539.19999,42.0,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,60,long_term,base,Base,valuation_latest,6000000000.0,85191419999.99998,70.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Mistral AI,2026-07-05,60,long_term,bull,Optimistic,valuation_latest,6000000000.0,353747554425.59985,126.0,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,1,short_term,bear,Pessimistic,valuation_latest,4500000000.0,4585072506.805059,25.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,1,short_term,base,Base,valuation_latest,4500000000.0,4633436432.05686,42.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,1,short_term,bull,Optimistic,valuation_latest,4500000000.0,4716171140.624918,75.60000000000001,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,2,short_term,bear,Pessimistic,valuation_latest,4500000000.0,4671753309.4799185,25.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,2,short_term,base,Base,valuation_latest,4500000000.0,4770829593.313734,42.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,2,short_term,bull,Optimistic,valuation_latest,4500000000.0,4942726717.258519,75.60000000000001,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,3,short_term,bear,Pessimistic,valuation_latest,4500000000.0,4760072812.860427,25.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,3,short_term,base,Base,valuation_latest,4500000000.0,4912296810.843304,42.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,3,short_term,bull,Optimistic,valuation_latest,4500000000.0,5180165577.762303,75.60000000000001,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,6,short_term,bear,Pessimistic,valuation_latest,4500000000.0,5035176263.051771,25.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,6,short_term,base,Base,valuation_latest,4500000000.0,5362368879.515842,42.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,6,short_term,bull,Optimistic,valuation_latest,4500000000.0,5963136758.451881,75.60000000000001,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,12,long_term,bear,Pessimistic,valuation_latest,4500000000.0,5634000000.0,25.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,12,long_term,base,Base,valuation_latest,4500000000.0,6390000000.0,42.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,12,long_term,bull,Optimistic,valuation_latest,4500000000.0,7902000000.000001,75.60000000000001,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,36,long_term,bear,Pessimistic,valuation_latest,4500000000.0,8831317536.0,25.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,36,long_term,base,Base,valuation_latest,4500000000.0,12884795999.999998,42.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,36,long_term,bull,Optimistic,valuation_latest,4500000000.0,24366101472.000008,75.60000000000001,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,60,long_term,bear,Pessimistic,valuation_latest,4500000000.0,13843125562.950144,25.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,60,long_term,base,Base,valuation_latest,4500000000.0,25980902654.399994,42.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Hugging Face,2026-07-05,60,long_term,bull,Optimistic,valuation_latest,4500000000.0,75133751068.56503,75.60000000000001,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,1,short_term,bear,Pessimistic,valuation_latest,13000000000.0,13568954152.953863,67.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,1,short_term,base,Base,valuation_latest,13000000000.0,13840061099.061651,112.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,1,short_term,bull,Optimistic,valuation_latest,13000000000.0,14252661268.663633,201.6,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,2,short_term,bear,Pessimistic,valuation_latest,13000000000.0,14162808984.997221,67.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,2,short_term,base,Base,valuation_latest,13000000000.0,14734407017.366121,112.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,2,short_term,bull,Optimistic,valuation_latest,13000000000.0,15626027172.251116,201.6,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,3,short_term,bear,Pessimistic,valuation_latest,13000000000.0,14782654291.882334,67.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,3,short_term,base,Base,valuation_latest,13000000000.0,15686545644.522299,112.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,3,short_term,bull,Optimistic,valuation_latest,13000000000.0,17131728635.463774,201.6,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,6,short_term,bear,Pessimistic,valuation_latest,13000000000.0,16809759070.254398,67.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,6,short_term,base,Base,valuation_latest,13000000000.0,18928285712.12935,112.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,6,short_term,bull,Optimistic,valuation_latest,13000000000.0,22576625079.936108,201.6,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,12,long_term,bear,Pessimistic,valuation_latest,13000000000.0,21736000000.000004,67.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,12,long_term,base,Base,valuation_latest,13000000000.0,27560000000.0,112.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,12,long_term,bull,Optimistic,valuation_latest,13000000000.0,39208000000.0,201.6,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,36,long_term,bear,Pessimistic,valuation_latest,13000000000.0,60764813824.000015,67.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,36,long_term,base,Base,valuation_latest,13000000000.0,123865664000.00002,112.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,36,long_term,bull,Optimistic,valuation_latest,13000000000.0,356646005248.0,201.6,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,60,long_term,bear,Pessimistic,valuation_latest,13000000000.0,169873141289.3533,67.2,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,60,long_term,base,Base,valuation_latest,13000000000.0,556701840281.6001,112.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Baseten,2026-07-05,60,long_term,bull,Optimistic,valuation_latest,13000000000.0,3244143365113.1514,201.6,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,1,short_term,bear,Pessimistic,valuation_latest,1000000000.0,1013025171.7763363,16.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,1,short_term,base,Base,valuation_latest,1000000000.0,1020784728.4895002,28.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,1,short_term,bull,Optimistic,valuation_latest,1000000000.0,1034595661.8002732,50.4,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,2,short_term,bear,Pessimistic,valuation_latest,1000000000.0,1026219998.6524758,16.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,2,short_term,base,Base,valuation_latest,1000000000.0,1042001461.9173827,28.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,2,short_term,bull,Optimistic,valuation_latest,1000000000.0,1070388183.4159454,50.4,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,3,short_term,bear,Pessimistic,valuation_latest,1000000000.0,1039586690.415236,16.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,3,short_term,base,Base,valuation_latest,1000000000.0,1063659179.3889978,28.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,3,short_term,bull,Optimistic,valuation_latest,1000000000.0,1107418971.0044122,50.4,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,6,short_term,bear,Pessimistic,valuation_latest,1000000000.0,1080740486.8885036,16.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,6,short_term,base,Base,valuation_latest,1000000000.0,1131370849.8984761,28.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,6,short_term,bull,Optimistic,valuation_latest,1000000000.0,1226376777.3404713,50.4,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,12,long_term,bear,Pessimistic,valuation_latest,1000000000.0,1168000000.0,16.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,12,long_term,base,Base,valuation_latest,1000000000.0,1280000000.0,28.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,12,long_term,bull,Optimistic,valuation_latest,1000000000.0,1504000000.0,50.4,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,36,long_term,bear,Pessimistic,valuation_latest,1000000000.0,1593413631.9999995,16.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,36,long_term,base,Base,valuation_latest,1000000000.0,2097152000.0000002,28.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,36,long_term,bull,Optimistic,valuation_latest,1000000000.0,3402072064.0,50.4,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,60,long_term,bear,Pessimistic,valuation_latest,1000000000.0,2173773118.7015676,16.8,35,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,60,long_term,base,Base,valuation_latest,1000000000.0,3435973836.8000007,28.0,45,2,Scenario forecast based on benchmark growth proxies; not a prediction.
+Kayrros,2026-07-05,60,long_term,bull,Optimistic,valuation_latest,1000000000.0,7695541441.921023,50.4,20,2,Scenario forecast based on benchmark growth proxies; not a prediction.
