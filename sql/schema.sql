@@ -40,6 +40,40 @@ CREATE TABLE IF NOT EXISTS funding_rounds (
     source_url TEXT
 );
 
+CREATE TABLE IF NOT EXISTS financial_events (
+    id INTEGER PRIMARY KEY,
+    startup_id INTEGER REFERENCES startups(id),
+    event_date DATE NOT NULL,
+    event_type TEXT NOT NULL,
+    event_title TEXT NOT NULL,
+    amount NUMERIC,
+    valuation NUMERIC,
+    currency TEXT DEFAULT 'USD',
+    share_price NUMERIC,
+    ticker TEXT,
+    exchange_name TEXT,
+    description TEXT,
+    source_url TEXT,
+    confidence_score INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS public_market_observations (
+    id INTEGER PRIMARY KEY,
+    startup_id INTEGER REFERENCES startups(id),
+    observed_at DATE NOT NULL,
+    ticker TEXT,
+    exchange_name TEXT,
+    share_price NUMERIC,
+    market_cap NUMERIC,
+    enterprise_value NUMERIC,
+    currency TEXT DEFAULT 'USD',
+    source TEXT,
+    source_url TEXT,
+    confidence_score INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS benchmark_metrics (
     startup_id INTEGER PRIMARY KEY REFERENCES startups(id),
     currency TEXT DEFAULT 'USD',
@@ -153,3 +187,5 @@ CREATE INDEX IF NOT EXISTS idx_signals_startup_date ON signals(startup_id, signa
 CREATE INDEX IF NOT EXISTS idx_metric_observations_startup_metric ON metric_observations(startup_id, metric_name, observed_at DESC);
 CREATE INDEX IF NOT EXISTS idx_metric_observations_period ON metric_observations(period_type, observed_at DESC);
 CREATE INDEX IF NOT EXISTS idx_scenario_forecasts_startup ON scenario_forecasts(startup_id, metric_name, horizon_months, scenario);
+CREATE INDEX IF NOT EXISTS idx_financial_events_startup_date ON financial_events(startup_id, event_date DESC);
+CREATE INDEX IF NOT EXISTS idx_public_market_obs_startup_date ON public_market_observations(startup_id, observed_at DESC);
