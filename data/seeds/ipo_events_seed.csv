@@ -1,0 +1,6 @@
+name,ipo_date,event_type,ipo_price,first_day_close,latest_share_price,shares_outstanding,market_cap_latest,currency,ticker,exchange_name,description,source_url,confidence_score
+UiPath,2021-04-21,ipo,56,69,0,,0,USD,PATH,NYSE,Public comparable placeholder for post-IPO software automation tracking,,1
+C3.ai,2020-12-09,ipo,42,92.49,0,,0,USD,AI,NYSE,Public comparable placeholder for enterprise AI post-IPO tracking,,1
+Arm Holdings,2023-09-14,ipo,51,63.59,0,,0,USD,ARM,Nasdaq,Public comparable placeholder for semiconductor AI infrastructure tracking,,1
+Tempus AI,2024-06-14,ipo,37,40.25,0,,0,USD,TEM,Nasdaq,Public comparable placeholder for AI healthtech post-IPO tracking,,1
+Reddit,2024-03-21,ipo,34,50.44,0,,0,USD,RDDT,NYSE,Public comparable placeholder for AI/data/community post-IPO tracking,,1
