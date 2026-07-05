@@ -1,0 +1,21 @@
+company_name,product_or_segment,event_window,event_type,event_title,probability_pct,impact_score,confidence_score,expected_effect,watch_signals,notes
+Figure AI,Figure humanoid robot / Helix AI,0-6 months,product_major,Major humanoid capability or deployment update,45,8,2,May increase valuation momentum,New demo; enterprise deployment; manufacturing update,Probable event category not confirmed.
+Figure AI,Physical AI / Robotics,6-18 months,funding,Potential late-stage funding or strategic round,35,9,1,May dilute existing investors but increase headline valuation,New investor reports; hiring spike; partnership,Speculative watch item.
+Figure AI,Physical AI / Robotics,18-36 months,ipo_candidate,Possible IPO preparation if revenue/deployments mature,20,10,1,Could create public-market comparable for humanoids,Audited revenue; CFO hire; S-1 rumors,Low confidence.
+Physical Intelligence,Robot foundation model,0-6 months,product_major,New robot foundation model release or benchmark,50,8,2,May raise technical moat score,Research release; demos; robotics partners,Probable product cadence.
+Physical Intelligence,Robot foundation model,6-18 months,funding,Potential growth funding round,40,8,1,May increase valuation and dilution risk,Investor news; hiring; new labs,Speculative.
+Skild AI,Robotics foundation model,0-6 months,partnership,Industrial robotics partnership or pilot,45,8,2,May validate model adoption,Customer announcement; robot OEM partner,Probable but unconfirmed.
+Skild AI,Robotics foundation model,6-18 months,funding,Potential growth round,35,8,1,May increase valuation and dilution risk,New investors; press leaks,Speculative.
+1X Technologies,NEO humanoid robot,0-6 months,product_major,NEO product/version update,45,7,2,May improve consumer robotics narrative,Product launch; beta program; videos,Probable product event.
+Apptronik,Apollo humanoid robot,0-12 months,partnership,Industrial deployment or OEM partnership,40,7,2,May increase commercial traction,Warehouse/factory customer; deployment announcement,Watch carefully.
+Agility Robotics,Digit bipedal robot,0-12 months,commercial_rollout,Warehouse deployment expansion,50,7,2,May increase revenue credibility,Customer expansion; unit economics; fleet size,More mature robotics use case.
+Mistral AI,Le Chat / Mistral models,0-6 months,product_major,New model or enterprise product update,55,8,3,May strengthen European AI positioning,Model release; enterprise customers; benchmark,Relatively frequent release cadence.
+Mistral AI,AI Infrastructure,6-18 months,funding,Potential additional strategic funding,35,7,2,May raise valuation and dilution risk,Strategic investor; compute partnership,Speculative.
+Hugging Face,Hub / Transformers,0-12 months,product_major,Inference or enterprise platform expansion,45,7,3,May improve monetization,Enterprise features; inference revenue; cloud partnership,Watch monetization signals.
+Baseten,Inference platform,0-6 months,product_major,Inference platform performance or enterprise release,50,8,2,May validate growth narrative,Latency benchmarks; enterprise logos; infra partnership,High-momentum category.
+Baseten,AI Infrastructure,6-18 months,dilution_risk,Potential dilution after very large round,30,7,1,Could pressure future return multiple,New round terms; secondary sales; employee tender,Speculative risk.
+UiPath,UiPath platform,0-12 months,product_major,Agentic automation product update,40,6,3,May affect public market sentiment,Product release; ARR guidance; analyst day,Public comparable.
+C3.ai,C3 Agentic AI Platform,0-12 months,earnings_event,Earnings / guidance update,80,7,3,May re-rate share price,Revenue growth; margin; backlog; guidance,Public company event.
+Arm Holdings,Arm AI IP,0-12 months,earnings_event,Earnings / AI infrastructure guidance,80,7,3,May affect AI semiconductor comparables,Royalty growth; AI chip demand; guidance,Public company event.
+Tempus AI,AI precision medicine,0-12 months,earnings_event,Earnings / clinical AI traction update,80,7,3,May affect health AI comparables,Revenue; clinical adoption; payer contracts,Public company event.
+Reddit,Data licensing / ads,0-12 months,earnings_event,Earnings / AI data licensing update,80,7,3,May affect AI data valuation narrative,Data licensing revenue; ad growth; user growth,Public company event.
