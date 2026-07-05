@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pandas as pd
+from sqlalchemy import text
 
 from src.db import execute_sql_file, get_engine
 from src.scoring import score_dataframe
@@ -39,9 +40,18 @@ SCORE_COLUMNS = [
 ]
 
 
-def load_seed_to_db(seed_path: str | Path = SEED_PATH) -> None:
+def reset_seed_tables(engine) -> None:
+    with engine.begin() as conn:
+        conn.execute(text("DELETE FROM scores"))
+        conn.execute(text("DELETE FROM startups"))
+
+
+def load_seed_to_db(seed_path: str | Path = SEED_PATH, reset: bool = True) -> None:
     execute_sql_file()
     engine = get_engine()
+    if reset:
+        reset_seed_tables(engine)
+
     df = pd.read_csv(seed_path)
     scored = score_dataframe(df)
 
