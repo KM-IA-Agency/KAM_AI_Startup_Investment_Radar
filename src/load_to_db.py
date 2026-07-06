@@ -12,6 +12,11 @@ SEED_PATH = Path("data/seeds/startups_seed.csv")
 PRODUCT_MAPPING_PATH = Path("data/seeds/company_product_mapping_seed.csv")
 AI_TOOLS_TAXONOMY_PATH = Path("data/seeds/ai_tools_trending_by_category_july2026.csv")
 VIBE_CODING_TOP20_PATH = Path("data/seeds/vibe_coding_top20_july2026.csv")
+BENCHMARK_PATH = Path("data/seeds/benchmark_metrics_seed.csv")
+FINANCIAL_EVENTS_PATH = Path("data/seeds/financial_events_seed.csv")
+IPO_EVENTS_PATH = Path("data/seeds/ipo_events_seed.csv")
+PUBLIC_MARKET_PATH = Path("data/seeds/public_market_observations_seed.csv")
+UPCOMING_EVENTS_PATH = Path("data/seeds/upcoming_events_seed.csv")
 
 STARTUP_COLUMNS = [
     "name",
@@ -42,13 +47,23 @@ SCORE_COLUMNS = [
     "score_explanation",
 ]
 
+RESET_TABLES = [
+    "ai_tools",
+    "product_mappings",
+    "upcoming_events",
+    "benchmark_metrics",
+    "financial_events",
+    "ipo_events",
+    "public_market_observations",
+    "scores",
+    "startups",
+]
+
 
 def reset_seed_tables(engine) -> None:
     with engine.begin() as conn:
-        conn.execute(text("DELETE FROM ai_tools"))
-        conn.execute(text("DELETE FROM product_mappings"))
-        conn.execute(text("DELETE FROM scores"))
-        conn.execute(text("DELETE FROM startups"))
+        for table in RESET_TABLES:
+            conn.execute(text(f"DELETE FROM {table}"))
 
 
 def _startup_ids(engine) -> pd.DataFrame:
@@ -66,15 +81,28 @@ def _resolve_startup_id(frame: pd.DataFrame, engine, company_column: str = "comp
     return resolved
 
 
-def _load_product_mappings(engine) -> None:
-    if not PRODUCT_MAPPING_PATH.exists():
-        return
+def _clean_numeric_columns(frame: pd.DataFrame, numeric_columns: list[str]) -> pd.DataFrame:
+    for col in numeric_columns:
+        if col in frame.columns:
+            frame[col] = pd.to_numeric(frame[col], errors="coerce")
+    return frame
 
-    mapping = pd.read_csv(PRODUCT_MAPPING_PATH)
-    if mapping.empty:
-        return
 
-    mapping = _resolve_startup_id(mapping, engine, "company_name")
+def _load_csv_with_startup_id(engine, path: Path, table: str, name_column: str, cols: list[str], numeric_cols: list[str] | None = None) -> int:
+    if not path.exists():
+        return 0
+    frame = pd.read_csv(path)
+    if frame.empty:
+        return 0
+    frame = _resolve_startup_id(frame, engine, name_column)
+    if numeric_cols:
+        frame = _clean_numeric_columns(frame, numeric_cols)
+    selected_cols = [col for col in cols if col in frame.columns]
+    frame[selected_cols].to_sql(table, engine, if_exists="append", index=False)
+    return len(frame)
+
+
+def _load_product_mappings(engine) -> int:
     cols = [
         "startup_id",
         "company_name",
@@ -87,9 +115,7 @@ def _load_product_mappings(engine) -> None:
         "status",
         "notes",
     ]
-    mapping[[col for col in cols if col in mapping.columns]].to_sql(
-        "product_mappings", engine, if_exists="append", index=False
-    )
+    return _load_csv_with_startup_id(engine, PRODUCT_MAPPING_PATH, "product_mappings", "company_name", cols)
 
 
 def _normalize_ai_tools_seed() -> pd.DataFrame:
@@ -130,10 +156,10 @@ def _normalize_ai_tools_seed() -> pd.DataFrame:
     return tools
 
 
-def _load_ai_tools(engine) -> None:
+def _load_ai_tools(engine) -> int:
     tools = _normalize_ai_tools_seed()
     if tools.empty:
-        return
+        return 0
 
     tools = _resolve_startup_id(tools, engine, "company_name")
     cols = [
@@ -151,6 +177,75 @@ def _load_ai_tools(engine) -> None:
     tools[[col for col in cols if col in tools.columns]].to_sql(
         "ai_tools", engine, if_exists="append", index=False
     )
+    return len(tools)
+
+
+def _load_benchmark_metrics(engine) -> int:
+    cols = [
+        "startup_id",
+        "currency",
+        "revenue_latest",
+        "revenue_period",
+        "revenue_growth_yoy_pct",
+        "valuation_latest",
+        "valuation_date",
+        "total_funding",
+        "latest_round_amount",
+        "latest_round_date",
+        "employees_latest",
+        "employee_growth_6m_pct",
+        "web_traffic_growth_3m_pct",
+        "github_stars",
+        "github_stars_growth_3m_pct",
+        "customer_count_estimate",
+        "data_confidence",
+        "notes",
+    ]
+    nums = [
+        "revenue_latest", "revenue_growth_yoy_pct", "valuation_latest", "total_funding",
+        "latest_round_amount", "employees_latest", "employee_growth_6m_pct",
+        "web_traffic_growth_3m_pct", "github_stars", "github_stars_growth_3m_pct",
+        "customer_count_estimate", "data_confidence",
+    ]
+    return _load_csv_with_startup_id(engine, BENCHMARK_PATH, "benchmark_metrics", "name", cols, nums)
+
+
+def _load_financial_events(engine) -> int:
+    cols = [
+        "startup_id", "event_date", "event_type", "event_title", "amount", "valuation",
+        "currency", "share_price", "ticker", "exchange_name", "description", "source_url", "confidence_score",
+    ]
+    nums = ["amount", "valuation", "share_price", "confidence_score"]
+    return _load_csv_with_startup_id(engine, FINANCIAL_EVENTS_PATH, "financial_events", "name", cols, nums)
+
+
+def _load_ipo_events(engine) -> int:
+    cols = [
+        "startup_id", "name", "ipo_date", "event_type", "ipo_price", "first_day_close",
+        "latest_share_price", "shares_outstanding", "market_cap_latest", "currency", "ticker",
+        "exchange_name", "description", "source_url", "confidence_score",
+    ]
+    nums = ["ipo_price", "first_day_close", "latest_share_price", "shares_outstanding", "market_cap_latest", "confidence_score"]
+    return _load_csv_with_startup_id(engine, IPO_EVENTS_PATH, "ipo_events", "name", cols, nums)
+
+
+def _load_public_market_observations(engine) -> int:
+    cols = [
+        "startup_id", "observed_at", "ticker", "exchange_name", "share_price", "market_cap",
+        "enterprise_value", "currency", "source", "source_url", "confidence_score",
+    ]
+    nums = ["share_price", "market_cap", "enterprise_value", "confidence_score"]
+    return _load_csv_with_startup_id(engine, PUBLIC_MARKET_PATH, "public_market_observations", "name", cols, nums)
+
+
+def _load_upcoming_events(engine) -> int:
+    cols = [
+        "startup_id", "company_name", "product_or_segment", "event_window", "event_type",
+        "event_title", "probability_pct", "impact_score", "confidence_score", "expected_effect",
+        "watch_signals", "notes",
+    ]
+    nums = ["probability_pct", "impact_score", "confidence_score"]
+    return _load_csv_with_startup_id(engine, UPCOMING_EVENTS_PATH, "upcoming_events", "company_name", cols, nums)
 
 
 def load_seed_to_db(seed_path: str | Path = SEED_PATH, reset: bool = True) -> None:
@@ -172,10 +267,23 @@ def load_seed_to_db(seed_path: str | Path = SEED_PATH, reset: bool = True) -> No
     scores = scores[["startup_id"] + [col for col in SCORE_COLUMNS if col in scores.columns]].copy()
     scores.to_sql("scores", engine, if_exists="append", index=False)
 
-    _load_product_mappings(engine)
-    _load_ai_tools(engine)
+    counts = {
+        "product_mappings": _load_product_mappings(engine),
+        "ai_tools": _load_ai_tools(engine),
+        "benchmark_metrics": _load_benchmark_metrics(engine),
+        "financial_events": _load_financial_events(engine),
+        "ipo_events": _load_ipo_events(engine),
+        "public_market_observations": _load_public_market_observations(engine),
+        "upcoming_events": _load_upcoming_events(engine),
+    }
+
+    print("Loaded rows:")
+    print(f"- startups: {len(startups)}")
+    print(f"- scores: {len(scores)}")
+    for table, count in counts.items():
+        print(f"- {table}: {count}")
 
 
 if __name__ == "__main__":
     load_seed_to_db()
-    print("Seed dataset, product mappings and AI tools taxonomy loaded to database")
+    print("Seed datasets loaded to SQLite database")
