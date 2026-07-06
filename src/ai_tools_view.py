@@ -53,6 +53,21 @@ def _safe_cols(df: pd.DataFrame, cols: list[str]) -> list[str]:
     return [col for col in cols if col in df.columns]
 
 
+def _normalize_company_columns(frame: pd.DataFrame) -> pd.DataFrame:
+    frame = frame.copy()
+    if frame.empty:
+        return frame
+    if "company_name" not in frame.columns and "company_or_owner" in frame.columns:
+        frame["company_name"] = frame["company_or_owner"]
+    if "company_or_owner" not in frame.columns and "company_name" in frame.columns:
+        frame["company_or_owner"] = frame["company_name"]
+    if "company_product_label" not in frame.columns:
+        company = frame.get("company_name", pd.Series("", index=frame.index)).fillna("").astype(str)
+        tool = frame.get("tool_or_group", pd.Series("", index=frame.index)).fillna("").astype(str)
+        frame["company_product_label"] = company + " → " + tool
+    return frame
+
+
 def _priority_rank(value: str) -> int:
     try:
         return PRIORITY_ORDER.index(str(value))
@@ -66,7 +81,7 @@ def _contains_any(value: str, keywords: list[str]) -> bool:
 
 
 def _score_impact(row: pd.Series) -> int:
-    text = " ".join(str(row.get(col, "")) for col in ["tool_or_group", "category", "role", "notes"])
+    text = " ".join(str(row.get(col, "")) for col in ["tool_or_group", "company_name", "category", "role", "notes"])
     priority = str(row.get("radar_priority", ""))
     relevance = str(row.get("investment_relevance", ""))
 
@@ -92,20 +107,17 @@ def _score_impact(row: pd.Series) -> int:
 
 def _score_investability(row: pd.Series) -> int:
     relevance = str(row.get("investment_relevance", ""))
-    text = " ".join(str(row.get(col, "")) for col in ["tool_or_group", "company_or_owner", "category", "notes"])
+    text = " ".join(str(row.get(col, "")) for col in ["tool_or_group", "company_name", "company_or_owner", "category", "notes"])
 
     score = 30
     for keyword, value in INVESTABILITY_RULES:
         if keyword.lower() in relevance.lower():
             score = max(score, value)
 
-    # Named public comparable shortcuts.
     if _contains_any(text, ["Microsoft", "Alphabet", "Adobe", "Z.ai", "Kuaishou", "Wix"]):
         score = max(score, 75)
-    # OpenAI / Anthropic are strategically critical but not easily investable.
     if _contains_any(text, ["OpenAI", "Anthropic", "xAI"]):
         score = min(score, 55)
-    # Pure workflow utility may be useful but not necessarily direct investment target.
     if "workflow utility" in relevance.lower():
         score = min(score, 45)
 
@@ -113,7 +125,7 @@ def _score_investability(row: pd.Series) -> int:
 
 
 def _add_matrix_scores(tools_df: pd.DataFrame) -> pd.DataFrame:
-    frame = tools_df.copy()
+    frame = _normalize_company_columns(tools_df)
     if frame.empty:
         return frame
     frame["strategic_impact_score"] = frame.apply(_score_impact, axis=1)
@@ -140,21 +152,36 @@ def _quadrant_label(row: pd.Series) -> str:
     return "Workflow / Watchlist"
 
 
-def _filter_tools(tools_df: pd.DataFrame) -> pd.DataFrame:
-    filtered = tools_df.copy()
+def _filter_tools(tools_df: pd.DataFrame, selected_company: str | None = None) -> pd.DataFrame:
+    filtered = _normalize_company_columns(tools_df)
+
+    focus_available = bool(
+        selected_company
+        and "company_name" in filtered.columns
+        and selected_company in filtered["company_name"].dropna().unique().tolist()
+    )
 
     with st.expander("Filtres Market Map", expanded=True):
-        c1, c2, c3 = st.columns(3)
+        c1, c2, c3, c4 = st.columns(4)
         with c1:
+            apply_focus = st.checkbox(
+                "Appliquer Startup focus",
+                value=focus_available,
+                disabled=not focus_available,
+                help="Filtre la Market Map sur la société sélectionnée dans la sidebar quand elle existe dans ai_tools.",
+            )
+        with c2:
             categories = sorted(filtered.get("category", pd.Series(dtype=str)).dropna().unique().tolist())
             selected_categories = st.multiselect("Catégories", categories, default=categories)
-        with c2:
+        with c3:
             priorities = sorted(filtered.get("radar_priority", pd.Series(dtype=str)).dropna().unique().tolist(), key=_priority_rank)
             selected_priorities = st.multiselect("Priorité radar", priorities, default=priorities)
-        with c3:
+        with c4:
             relevance = sorted(filtered.get("investment_relevance", pd.Series(dtype=str)).dropna().unique().tolist())
             selected_relevance = st.multiselect("Pertinence investissement", relevance, default=relevance)
 
+    if focus_available and apply_focus:
+        filtered = filtered[filtered["company_name"] == selected_company]
     if "category" in filtered.columns and selected_categories:
         filtered = filtered[filtered["category"].isin(selected_categories)]
     if "radar_priority" in filtered.columns and selected_priorities:
@@ -166,6 +193,7 @@ def _filter_tools(tools_df: pd.DataFrame) -> pd.DataFrame:
 
 
 def _render_market_map(filtered: pd.DataFrame) -> None:
+    filtered = _normalize_company_columns(filtered)
     st.markdown("### Market Map par catégorie")
     if filtered.empty:
         st.warning("Aucun outil ne correspond aux filtres.")
@@ -182,7 +210,7 @@ def _render_market_map(filtered: pd.DataFrame) -> None:
         st.bar_chart(filtered["category"].value_counts())
 
     display_cols = [
-        "category", "tool_or_group", "company_or_owner", "role",
+        "company_product_label", "company_name", "tool_or_group", "category", "role",
         "investment_relevance", "radar_priority", "notes",
     ]
     st.dataframe(filtered[_safe_cols(filtered, display_cols)], use_container_width=True)
@@ -190,13 +218,16 @@ def _render_market_map(filtered: pd.DataFrame) -> None:
     st.markdown("#### Cartes par catégorie")
     for category, group in filtered.groupby("category"):
         with st.expander(f"{category} — {len(group)} outils", expanded=False):
-            cols = ["tool_or_group", "company_or_owner", "role", "investment_relevance", "radar_priority", "notes"]
+            cols = ["company_product_label", "company_name", "tool_or_group", "role", "investment_relevance", "radar_priority", "notes"]
             st.dataframe(group[_safe_cols(group, cols)], use_container_width=True)
 
 
-def _render_builder_workflow(tools_df: pd.DataFrame) -> None:
+def _render_builder_workflow(tools_df: pd.DataFrame, selected_company: str | None = None) -> None:
+    tools_df = _normalize_company_columns(tools_df)
     st.markdown("### Builder Workflow")
     st.caption("Vue opérationnelle : de l'idée au produit vendable, puis automatisé et monitoré.")
+    if selected_company and "company_name" in tools_df.columns and selected_company in tools_df["company_name"].dropna().unique().tolist():
+        st.caption(f"Startup focus disponible dans cette vue : {selected_company}")
 
     for step, keywords in WORKFLOW_STEPS:
         matches = tools_df[
@@ -208,11 +239,13 @@ def _render_builder_workflow(tools_df: pd.DataFrame) -> None:
             if matches.empty:
                 st.info("Aucune ligne directement associée dans le CSV pour cette étape.")
             else:
-                cols = ["tool_or_group", "company_or_owner", "category", "role", "investment_relevance", "radar_priority"]
+                cols = ["company_product_label", "company_name", "tool_or_group", "category", "role", "investment_relevance", "radar_priority"]
                 st.dataframe(matches[_safe_cols(matches, cols)].drop_duplicates(), use_container_width=True)
 
 
 def _render_vibe_coding_core(tools_df: pd.DataFrame, top20_df: pd.DataFrame) -> None:
+    tools_df = _normalize_company_columns(tools_df)
+    top20_df = _normalize_company_columns(top20_df)
     st.markdown("### Vibe Coding Core")
     st.caption("Focus sur les outils qui construisent réellement du logiciel, des apps, des PR ou des workflows dev.")
 
@@ -225,7 +258,7 @@ def _render_vibe_coding_core(tools_df: pd.DataFrame, top20_df: pd.DataFrame) -> 
     if core.empty:
         st.warning("Aucun outil core Vibe Coding trouvé.")
     else:
-        cols = ["tool_or_group", "company_or_owner", "role", "investment_relevance", "radar_priority", "notes"]
+        cols = ["company_product_label", "company_name", "tool_or_group", "role", "investment_relevance", "radar_priority", "notes"]
         st.dataframe(core[_safe_cols(core, cols)], use_container_width=True)
         if "radar_priority" in core.columns:
             st.markdown("#### Priorité radar — Vibe Coding")
@@ -233,7 +266,7 @@ def _render_vibe_coding_core(tools_df: pd.DataFrame, top20_df: pd.DataFrame) -> 
 
     if not top20_df.empty:
         st.markdown("### Top 20 July 2026 — version courte")
-        cols = ["rank", "tool_or_group", "company_or_owner", "primary_role", "category", "investable_entity", "status", "radar_action"]
+        cols = ["rank", "company_product_label", "tool_or_group", "company_name", "primary_role", "category", "investable_entity", "status", "radar_action"]
         st.dataframe(top20_df[_safe_cols(top20_df, cols)], use_container_width=True)
 
 
@@ -258,7 +291,7 @@ def _render_impact_investability_matrix(tools_df: pd.DataFrame) -> None:
 
     st.markdown("#### Quadrants")
     display_cols = [
-        "tool_or_group", "company_or_owner", "category", "investment_relevance", "radar_priority",
+        "company_product_label", "company_name", "tool_or_group", "category", "investment_relevance", "radar_priority",
         "strategic_impact_score", "investability_score", "quadrant", "notes",
     ]
     scored = scored.sort_values(["strategic_impact_score", "investability_score"], ascending=False)
@@ -290,7 +323,7 @@ def _render_monthly_top10(tools_df: pd.DataFrame) -> None:
     top10.insert(0, "rank", range(1, len(top10) + 1))
 
     cols = [
-        "rank", "tool_or_group", "company_or_owner", "category", "role",
+        "rank", "company_product_label", "company_name", "tool_or_group", "category", "role",
         "investment_relevance", "radar_priority", "strategic_impact_score",
         "investability_score", "top10_score", "notes",
     ]
@@ -299,8 +332,8 @@ def _render_monthly_top10(tools_df: pd.DataFrame) -> None:
     st.markdown("#### Pourquoi ces 10 ?")
     for _, row in top10.iterrows():
         st.markdown(
-            f"**#{int(row['rank'])} — {row['tool_or_group']}**  \n"
-            f"Société : `{row.get('company_or_owner', '')}` · Catégorie : `{row.get('category', '')}` · "
+            f"**#{int(row['rank'])} — {row['company_product_label']}**  \n"
+            f"Catégorie : `{row.get('category', '')}` · "
             f"Impact : `{int(row.get('strategic_impact_score', 0))}/100` · "
             f"Investissabilité : `{int(row.get('investability_score', 0))}/100`  \n"
             f"Action radar : {row.get('notes', '')}"
@@ -308,6 +341,7 @@ def _render_monthly_top10(tools_df: pd.DataFrame) -> None:
 
 
 def _render_investability(tools_df: pd.DataFrame) -> None:
+    tools_df = _normalize_company_columns(tools_df)
     st.markdown("### Investability Matrix")
     st.caption("Produit connu ≠ société investissable. Cette vue sépare plateformes cotées, privées, risques stratégiques et utilities.")
 
@@ -315,7 +349,7 @@ def _render_investability(tools_df: pd.DataFrame) -> None:
         st.warning("Aucune donnée disponible.")
         return
 
-    matrix_cols = ["tool_or_group", "company_or_owner", "category", "investment_relevance", "radar_priority", "notes"]
+    matrix_cols = ["company_product_label", "company_name", "tool_or_group", "category", "investment_relevance", "radar_priority", "notes"]
     public_like = tools_df[tools_df.get("investment_relevance", pd.Series(dtype=str)).str.contains("Public", case=False, na=False)]
     private_like = tools_df[tools_df.get("investment_relevance", pd.Series(dtype=str)).str.contains("Private", case=False, na=False)]
     strategic_like = tools_df[tools_df.get("investment_relevance", pd.Series(dtype=str)).str.contains("Strategic", case=False, na=False)]
@@ -341,7 +375,7 @@ def _render_investability(tools_df: pd.DataFrame) -> None:
                 st.dataframe(frame[_safe_cols(frame, matrix_cols)], use_container_width=True)
 
 
-def _render_tool_detail(tools_df: pd.DataFrame, top20_df: pd.DataFrame) -> None:
+def _render_tool_detail(tools_df: pd.DataFrame, top20_df: pd.DataFrame, selected_company: str | None = None) -> None:
     st.markdown("### Tool Detail")
     scored = _add_matrix_scores(tools_df)
     all_tools = sorted(scored.get("tool_or_group", pd.Series(dtype=str)).dropna().unique().tolist())
@@ -349,14 +383,20 @@ def _render_tool_detail(tools_df: pd.DataFrame, top20_df: pd.DataFrame) -> None:
         st.warning("Aucun outil disponible.")
         return
 
-    selected = st.selectbox("Outil / groupe", all_tools, key="ai_tool_detail_select")
+    default_tool = None
+    if selected_company and "company_name" in scored.columns:
+        focus_tools = scored[scored["company_name"] == selected_company]["tool_or_group"].dropna().tolist()
+        if focus_tools:
+            default_tool = focus_tools[0]
+    default_index = all_tools.index(default_tool) if default_tool in all_tools else 0
+    selected = st.selectbox("Outil / groupe", all_tools, index=default_index, key="ai_tool_detail_select")
     row = scored[scored["tool_or_group"] == selected].iloc[0]
 
-    st.markdown(f"## {selected}")
+    st.markdown(f"## {row.get('company_product_label', selected)}")
     c1, c2, c3, c4, c5 = st.columns(5)
     c1.metric("Catégorie", str(row.get("category", ""))[:30])
     c2.metric("Priorité", str(row.get("radar_priority", "")))
-    c3.metric("Société", str(row.get("company_or_owner", ""))[:30])
+    c3.metric("Société", str(row.get("company_name", row.get("company_or_owner", "")))[:30])
     c4.metric("Impact", int(row.get("strategic_impact_score", 0)))
     c5.metric("Investissabilité", int(row.get("investability_score", 0)))
 
@@ -365,14 +405,19 @@ def _render_tool_detail(tools_df: pd.DataFrame, top20_df: pd.DataFrame) -> None:
     st.markdown("**Pertinence investissement :** " + str(row.get("investment_relevance", "")))
     st.markdown("**Notes :** " + str(row.get("notes", "")))
 
+    top20_df = _normalize_company_columns(top20_df)
     match_top = top20_df[top20_df.get("tool_or_group", pd.Series(dtype=str)) == selected] if not top20_df.empty else pd.DataFrame()
     if not match_top.empty:
         st.markdown("### Vue Top 20")
-        cols = ["rank", "primary_role", "category", "investable_entity", "status", "why_it_matters", "radar_action"]
+        cols = ["rank", "company_product_label", "primary_role", "category", "investable_entity", "status", "why_it_matters", "radar_action"]
         st.dataframe(match_top[_safe_cols(match_top, cols)], use_container_width=True)
 
 
-def render_ai_tools_stack_view(tools_df: pd.DataFrame, top20_df: pd.DataFrame) -> None:
+def render_ai_tools_stack_view(
+    tools_df: pd.DataFrame,
+    top20_df: pd.DataFrame,
+    selected_company: str | None = None,
+) -> None:
     st.subheader("AI Tools Stack / Market Map — July 2026")
     st.caption("Taxonomie IA : Vibe Coding, agents, recherche, productivité, créatif, vidéo, audio et automation.")
 
@@ -380,8 +425,8 @@ def render_ai_tools_stack_view(tools_df: pd.DataFrame, top20_df: pd.DataFrame) -
         st.warning("Aucune donnée disponible. Renseigne ai_tools_trending_by_category_july2026.csv et vibe_coding_top20_july2026.csv.")
         return
 
-    active_df = tools_df.copy() if not tools_df.empty else pd.DataFrame()
-    filtered = _filter_tools(active_df) if not active_df.empty else active_df
+    active_df = _normalize_company_columns(tools_df.copy()) if not tools_df.empty else pd.DataFrame()
+    filtered = _filter_tools(active_df, selected_company=selected_company) if not active_df.empty else active_df
 
     sub_tabs = st.tabs([
         "Market Map", "Builder Workflow", "Vibe Coding Core",
@@ -391,7 +436,7 @@ def render_ai_tools_stack_view(tools_df: pd.DataFrame, top20_df: pd.DataFrame) -
     with sub_tabs[0]:
         _render_market_map(filtered)
     with sub_tabs[1]:
-        _render_builder_workflow(active_df)
+        _render_builder_workflow(active_df, selected_company=selected_company)
     with sub_tabs[2]:
         _render_vibe_coding_core(active_df, top20_df)
     with sub_tabs[3]:
@@ -401,6 +446,6 @@ def render_ai_tools_stack_view(tools_df: pd.DataFrame, top20_df: pd.DataFrame) -
     with sub_tabs[5]:
         _render_investability(active_df)
     with sub_tabs[6]:
-        _render_tool_detail(active_df, top20_df)
+        _render_tool_detail(active_df, top20_df, selected_company=selected_company)
 
     st.info("Lecture recommandée : sépare toujours produit visible, société propriétaire, statut investissable, comparable coté et rôle réel dans la chaîne builder.")

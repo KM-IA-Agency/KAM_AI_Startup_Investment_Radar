@@ -6,7 +6,11 @@ import streamlit as st
 from src.formatting import add_readable_columns, format_number
 
 
-def render_ipo_and_share_view(ipo_df: pd.DataFrame, market_df: pd.DataFrame) -> None:
+def render_ipo_and_share_view(
+    ipo_df: pd.DataFrame,
+    market_df: pd.DataFrame,
+    selected_company: str | None = None,
+) -> None:
     st.subheader("IPO & Actions")
     st.caption("Introduction en bourse, prix IPO, cours après IPO, évolution du cours et capitalisation si disponible.")
 
@@ -14,8 +18,23 @@ def render_ipo_and_share_view(ipo_df: pd.DataFrame, market_df: pd.DataFrame) -> 
         st.warning("Aucune donnée IPO/action disponible. Renseigne data/seeds/ipo_events_seed.csv et data/seeds/public_market_observations_seed.csv.")
         return
 
-    available_names = sorted(set(ipo_df.get("name", pd.Series(dtype=str)).dropna().tolist()) | set(market_df.get("name", pd.Series(dtype=str)).dropna().tolist()))
-    selected_public = st.selectbox("Société cotée / comparable public", available_names)
+    available_names = sorted(
+        set(ipo_df.get("name", pd.Series(dtype=str)).dropna().tolist())
+        | set(market_df.get("name", pd.Series(dtype=str)).dropna().tolist())
+    )
+    if not available_names:
+        st.warning("Aucune société cotée / comparable public disponible.")
+        return
+
+    default_index = available_names.index(selected_company) if selected_company in available_names else 0
+    selected_public = st.selectbox(
+        "Société cotée / comparable public",
+        available_names,
+        index=default_index,
+        key="ipo_public_company",
+    )
+    if selected_company and selected_company in available_names:
+        st.caption(f"Filtre initial propagé depuis Startup focus : {selected_company}")
 
     ipo = ipo_df[ipo_df["name"] == selected_public].copy() if not ipo_df.empty else pd.DataFrame()
     market = market_df[market_df["name"] == selected_public].copy() if not market_df.empty else pd.DataFrame()
@@ -45,7 +64,7 @@ def render_ipo_and_share_view(ipo_df: pd.DataFrame, market_df: pd.DataFrame) -> 
         market = market.sort_values("observed_at")
         readable_market = add_readable_columns(market, money_columns=["share_price", "market_cap", "enterprise_value"])
         cols = [
-            "observed_at", "ticker", "exchange_name", "share_price_readable",
+            "observed_at", "name", "ticker", "exchange_name", "share_price_readable",
             "market_cap_readable", "enterprise_value_readable", "currency", "confidence_score", "source",
         ]
         st.markdown("### Observations de marché")
