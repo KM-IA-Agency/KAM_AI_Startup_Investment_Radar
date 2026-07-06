@@ -68,6 +68,52 @@ CREATE TABLE IF NOT EXISTS funding_rounds (
     source_url TEXT
 );
 
+CREATE TABLE IF NOT EXISTS growth_stage_snapshots (
+    id INTEGER PRIMARY KEY,
+    startup_id INTEGER REFERENCES startups(id),
+    company_name TEXT NOT NULL,
+    current_stage TEXT NOT NULL,
+    stage_basis TEXT,
+    last_known_round TEXT,
+    last_round_date DATE,
+    last_round_amount NUMERIC,
+    last_known_valuation NUMERIC,
+    currency TEXT DEFAULT 'USD',
+    estimated_revenue_band TEXT,
+    estimated_headcount_band TEXT,
+    next_likely_stage TEXT,
+    next_stage_horizon TEXT,
+    stage_confidence_score INTEGER,
+    source_url TEXT,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(company_name, current_stage, refreshed_at)
+);
+
+CREATE TABLE IF NOT EXISTS stage_opportunities (
+    id INTEGER PRIMARY KEY,
+    startup_id INTEGER REFERENCES startups(id),
+    company_name TEXT NOT NULL,
+    current_stage TEXT,
+    next_likely_stage TEXT,
+    opportunity_type TEXT NOT NULL,
+    opportunity_window TEXT,
+    opportunity_title TEXT NOT NULL,
+    opportunity_description TEXT,
+    probability_pct NUMERIC,
+    expected_impact_score INTEGER,
+    access_difficulty_score INTEGER,
+    investor_action TEXT,
+    watch_signals TEXT,
+    confidence_score INTEGER,
+    source_url TEXT,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(company_name, opportunity_type, opportunity_window, opportunity_title)
+);
+
 CREATE TABLE IF NOT EXISTS financial_events (
     id INTEGER PRIMARY KEY,
     startup_id INTEGER REFERENCES startups(id),
@@ -311,6 +357,10 @@ CREATE INDEX IF NOT EXISTS idx_table_refresh_log_table ON table_refresh_log(tabl
 CREATE INDEX IF NOT EXISTS idx_startups_country ON startups(country);
 CREATE INDEX IF NOT EXISTS idx_startups_sector ON startups(sector);
 CREATE INDEX IF NOT EXISTS idx_startups_stage ON startups(stage);
+CREATE INDEX IF NOT EXISTS idx_growth_stage_startup ON growth_stage_snapshots(startup_id, refreshed_at DESC);
+CREATE INDEX IF NOT EXISTS idx_growth_stage_company ON growth_stage_snapshots(company_name, refreshed_at DESC);
+CREATE INDEX IF NOT EXISTS idx_stage_opportunities_startup ON stage_opportunities(startup_id, opportunity_window);
+CREATE INDEX IF NOT EXISTS idx_stage_opportunities_company ON stage_opportunities(company_name, opportunity_window);
 CREATE INDEX IF NOT EXISTS idx_scores_total_score ON scores(total_score DESC);
 CREATE INDEX IF NOT EXISTS idx_scores_decision ON scores(decision);
 CREATE INDEX IF NOT EXISTS idx_signals_startup_date ON signals(startup_id, signal_date DESC);

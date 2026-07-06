@@ -8,6 +8,7 @@ from sqlalchemy import text
 from src.db import execute_sql_file, get_engine
 from src.run_tracking import finish_analysis_run, log_table_refresh, start_analysis_run, utc_now_iso
 from src.scoring import score_dataframe
+from src.stage_analysis import refresh_growth_stage_tables
 
 SEED_PATH = Path("data/seeds/startups_seed.csv")
 PRODUCT_MAPPING_PATH = Path("data/seeds/company_product_mapping_seed.csv")
@@ -34,9 +35,9 @@ SCORE_COLUMNS = [
 ]
 
 RESET_TABLES = [
-    "ai_tools", "product_mappings", "upcoming_events", "benchmark_metrics",
-    "financial_events", "ipo_events", "public_market_observations", "scenario_forecasts",
-    "scores", "startups",
+    "stage_opportunities", "growth_stage_snapshots", "ai_tools", "product_mappings",
+    "upcoming_events", "benchmark_metrics", "financial_events", "ipo_events",
+    "public_market_observations", "scenario_forecasts", "scores", "startups",
 ]
 
 
@@ -52,13 +53,6 @@ def _startup_ids(engine) -> pd.DataFrame:
 
 
 def _resolve_startup_id(frame: pd.DataFrame, engine, company_column: str = "company_name") -> pd.DataFrame:
-    """Attach startup_id without deleting business columns from the source frame.
-
-    Some seed files, especially ipo_events and benchmark/forecast outputs, use a
-    business column named `name`. The previous implementation merged with
-    startups.name and then dropped `name`, which removed the source column.
-    We now rename the lookup column before merging so the source frame is kept intact.
-    """
     ids = _startup_ids(engine)
     if frame.empty or company_column not in frame.columns:
         frame["startup_id"] = None
@@ -270,6 +264,7 @@ def load_seed_to_db(
             "upcoming_events": _load_upcoming_events(engine, run_id),
             "scenario_forecasts": _load_forecasts(engine, run_id),
         }
+        counts.update(refresh_growth_stage_tables(engine, run_id=run_id))
         finish_analysis_run(engine, run_id, status="success")
         print(f"Analysis run id: {run_id}")
         print("Loaded rows:")
