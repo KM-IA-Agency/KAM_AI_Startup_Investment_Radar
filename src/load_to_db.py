@@ -52,12 +52,26 @@ def _startup_ids(engine) -> pd.DataFrame:
 
 
 def _resolve_startup_id(frame: pd.DataFrame, engine, company_column: str = "company_name") -> pd.DataFrame:
+    """Attach startup_id without deleting business columns from the source frame.
+
+    Some seed files, especially ipo_events and benchmark/forecast outputs, use a
+    business column named `name`. The previous implementation merged with
+    startups.name and then dropped `name`, which removed the source column.
+    We now rename the lookup column before merging so the source frame is kept intact.
+    """
     ids = _startup_ids(engine)
     if frame.empty or company_column not in frame.columns:
         frame["startup_id"] = None
         return frame
-    resolved = frame.merge(ids, left_on=company_column, right_on="name", how="left")
-    return resolved.drop(columns=["name"], errors="ignore")
+
+    lookup = ids.rename(columns={"name": "__startup_lookup_name"})
+    resolved = frame.merge(
+        lookup,
+        left_on=company_column,
+        right_on="__startup_lookup_name",
+        how="left",
+    )
+    return resolved.drop(columns=["__startup_lookup_name"], errors="ignore")
 
 
 def _clean_numeric_columns(frame: pd.DataFrame, numeric_columns: list[str]) -> pd.DataFrame:
