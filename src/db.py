@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
 
+from src.sqlite_migrations import ensure_sqlite_schema_compatibility
+
 load_dotenv()
 
 DEFAULT_DATABASE_URL = "sqlite:///startup_radar_local.db"
@@ -29,6 +31,8 @@ def execute_sql_file(sql_path: str | Path = "sql/schema.sql", database_url: str 
     with engine.begin() as conn:
         for statement in statements:
             conn.execute(text(statement))
+
+    ensure_sqlite_schema_compatibility(engine)
 
 
 if __name__ == "__main__":
