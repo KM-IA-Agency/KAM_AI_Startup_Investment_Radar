@@ -7,6 +7,7 @@ import streamlit as st
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT))
 
+from src.ai_tools_view import render_ai_tools_stack_view
 from src.db import get_engine
 from src.events_view import render_product_and_events_view
 from src.formatting import add_readable_columns, format_number, format_percent
@@ -20,12 +21,14 @@ IPO_EVENTS_PATH = ROOT / "data" / "seeds" / "ipo_events_seed.csv"
 PUBLIC_MARKET_PATH = ROOT / "data" / "seeds" / "public_market_observations_seed.csv"
 PRODUCT_MAPPING_PATH = ROOT / "data" / "seeds" / "company_product_mapping_seed.csv"
 UPCOMING_EVENTS_PATH = ROOT / "data" / "seeds" / "upcoming_events_seed.csv"
+AI_TOOLS_TAXONOMY_PATH = ROOT / "data" / "seeds" / "ai_tools_trending_by_category_july2026.csv"
+VIBE_CODING_TOP20_PATH = ROOT / "data" / "seeds" / "vibe_coding_top20_july2026.csv"
 FORECAST_PATH = ROOT / "reports" / "forecasts" / "scenario_forecasts.csv"
 FORECAST_SHORT_PATH = ROOT / "reports" / "forecasts" / "scenario_forecasts_short_term.csv"
 
 st.set_page_config(page_title="KAM AI Startup Radar", layout="wide")
 st.title("KAM AI Startup Investment Radar")
-st.caption("MVP de veille, scoring, benchmark, forecasts, IPO, actions, produits et événements startup IA / Deeptech")
+st.caption("MVP de veille, scoring, market map IA, benchmark, forecasts, IPO, actions, produits et événements startup IA / Deeptech")
 
 
 def load_from_csv():
@@ -91,6 +94,8 @@ ipo_events_df = load_optional_csv(IPO_EVENTS_PATH)
 public_market_df = load_optional_csv(PUBLIC_MARKET_PATH)
 product_mapping_df = load_optional_csv(PRODUCT_MAPPING_PATH)
 upcoming_events_df = load_optional_csv(UPCOMING_EVENTS_PATH)
+ai_tools_taxonomy_df = load_optional_csv(AI_TOOLS_TAXONOMY_PATH)
+vibe_coding_top20_df = load_optional_csv(VIBE_CODING_TOP20_PATH)
 forecast_df = load_optional_csv(FORECAST_PATH)
 forecast_short_df = load_optional_csv(FORECAST_SHORT_PATH)
 
@@ -115,7 +120,7 @@ filtered = df[
 ]
 
 tabs = st.tabs([
-    "Overview", "Watchlist", "Benchmark", "Forecasts",
+    "Overview", "Watchlist", "AI Tools Stack", "Benchmark", "Forecasts",
     "Financial Timeline", "IPO & Actions", "Products & Events",
     "Physical AI", "Startup Detail"
 ])
@@ -145,6 +150,9 @@ with tabs[1]:
         st.scatter_chart(chart_df, x="risk_score", y="total_score", size="kamel_edge_score")
 
 with tabs[2]:
+    render_ai_tools_stack_view(ai_tools_taxonomy_df, vibe_coding_top20_df)
+
+with tabs[3]:
     st.subheader("Benchmark classique : CA, valorisation, funding, croissance")
     if benchmark_df.empty:
         st.warning("Aucun benchmark disponible. Lance ou renseigne data/seeds/benchmark_metrics_seed.csv.")
@@ -160,7 +168,7 @@ with tabs[2]:
         st.dataframe(readable[safe_columns(readable, display_cols)], use_container_width=True)
         st.caption("Les colonnes financières sont affichées en k / M / Mrd pour faciliter la lecture.")
 
-with tabs[3]:
+with tabs[4]:
     st.subheader("Scénarios prévisionnels")
     st.caption("Scénarios, pas prédictions certaines ni conseils financiers.")
     selected_view = st.radio("Vue", ["Court terme 1/2/3/6 mois", "Complet 1 à 60 mois"], horizontal=True)
@@ -178,7 +186,7 @@ with tabs[3]:
                 st.line_chart(pivot / 1_000_000_000)
                 st.caption("Axe en milliards. Exemple : 13 = 13 Mrd.")
 
-with tabs[4]:
+with tabs[5]:
     st.subheader("Financial Timeline")
     st.caption("Levées de fonds, valorisations, événements majeurs et scénarios futurs.")
     if financial_events_df.empty:
@@ -202,13 +210,13 @@ with tabs[4]:
                 st.markdown("### Évolution de la valorisation")
                 st.line_chart(valuation / 1_000_000_000)
 
-with tabs[5]:
+with tabs[6]:
     render_ipo_and_share_view(ipo_events_df, public_market_df)
 
-with tabs[6]:
+with tabs[7]:
     render_product_and_events_view(product_mapping_df, upcoming_events_df)
 
-with tabs[7]:
+with tabs[8]:
     st.subheader("Physical AI / Robotics")
     robotics = filtered[filtered["sector"].str.contains("Physical AI", na=False)]
     if robotics.empty:
@@ -220,7 +228,7 @@ with tabs[7]:
         if not robot_chart.empty:
             st.scatter_chart(robot_chart, x="risk_score", y="total_score", size="technical_moat_score")
 
-with tabs[8]:
+with tabs[9]:
     st.subheader("Fiche startup")
     if selected_startup:
         row = df[df["name"] == selected_startup].iloc[0]
