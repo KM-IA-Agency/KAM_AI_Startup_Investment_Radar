@@ -74,6 +74,41 @@ CREATE TABLE IF NOT EXISTS public_market_observations (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS product_mappings (
+    id INTEGER PRIMARY KEY,
+    startup_id INTEGER REFERENCES startups(id),
+    company_name TEXT NOT NULL,
+    public_name TEXT,
+    flagship_product TEXT,
+    product_category TEXT,
+    related_startup_or_segment TEXT,
+    ticker TEXT,
+    exchange_name TEXT,
+    status TEXT,
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(company_name, public_name, flagship_product)
+);
+
+CREATE TABLE IF NOT EXISTS ai_tools (
+    id INTEGER PRIMARY KEY,
+    startup_id INTEGER REFERENCES startups(id),
+    company_name TEXT,
+    tool_or_group TEXT NOT NULL,
+    category TEXT NOT NULL,
+    role TEXT,
+    investment_relevance TEXT,
+    radar_priority TEXT,
+    status TEXT,
+    source_dataset TEXT,
+    notes TEXT,
+    strategic_impact_score INTEGER,
+    investability_score INTEGER,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(tool_or_group, company_name, category)
+);
+
 CREATE TABLE IF NOT EXISTS benchmark_metrics (
     startup_id INTEGER PRIMARY KEY REFERENCES startups(id),
     currency TEXT DEFAULT 'USD',
@@ -189,3 +224,8 @@ CREATE INDEX IF NOT EXISTS idx_metric_observations_period ON metric_observations
 CREATE INDEX IF NOT EXISTS idx_scenario_forecasts_startup ON scenario_forecasts(startup_id, metric_name, horizon_months, scenario);
 CREATE INDEX IF NOT EXISTS idx_financial_events_startup_date ON financial_events(startup_id, event_date DESC);
 CREATE INDEX IF NOT EXISTS idx_public_market_obs_startup_date ON public_market_observations(startup_id, observed_at DESC);
+CREATE INDEX IF NOT EXISTS idx_product_mappings_startup ON product_mappings(startup_id);
+CREATE INDEX IF NOT EXISTS idx_product_mappings_company ON product_mappings(company_name);
+CREATE INDEX IF NOT EXISTS idx_ai_tools_startup ON ai_tools(startup_id);
+CREATE INDEX IF NOT EXISTS idx_ai_tools_category ON ai_tools(category);
+CREATE INDEX IF NOT EXISTS idx_ai_tools_priority ON ai_tools(radar_priority);
