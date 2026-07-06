@@ -1,6 +1,34 @@
 -- KAM AI Startup Investment Radar - MVP schema
 -- Compatible with PostgreSQL-oriented design and SQLite local fallback.
 
+CREATE TABLE IF NOT EXISTS analysis_runs (
+    id INTEGER PRIMARY KEY,
+    run_name TEXT NOT NULL,
+    run_type TEXT NOT NULL,
+    cadence TEXT,
+    started_at TIMESTAMP NOT NULL,
+    finished_at TIMESTAMP,
+    status TEXT NOT NULL DEFAULT 'running',
+    trigger_source TEXT,
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS table_refresh_log (
+    id INTEGER PRIMARY KEY,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    table_name TEXT NOT NULL,
+    source_name TEXT,
+    source_type TEXT,
+    source_path TEXT,
+    rows_loaded INTEGER DEFAULT 0,
+    observed_from TIMESTAMP,
+    observed_to TIMESTAMP,
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status TEXT DEFAULT 'success',
+    notes TEXT
+);
+
 CREATE TABLE IF NOT EXISTS startups (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
@@ -55,6 +83,8 @@ CREATE TABLE IF NOT EXISTS financial_events (
     description TEXT,
     source_url TEXT,
     confidence_score INTEGER,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -75,6 +105,8 @@ CREATE TABLE IF NOT EXISTS ipo_events (
     description TEXT,
     source_url TEXT,
     confidence_score INTEGER,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(name, ipo_date, ticker)
 );
@@ -92,6 +124,8 @@ CREATE TABLE IF NOT EXISTS public_market_observations (
     source TEXT,
     source_url TEXT,
     confidence_score INTEGER,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -107,6 +141,8 @@ CREATE TABLE IF NOT EXISTS product_mappings (
     exchange_name TEXT,
     status TEXT,
     notes TEXT,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(company_name, public_name, flagship_product)
 );
@@ -125,6 +161,8 @@ CREATE TABLE IF NOT EXISTS ai_tools (
     notes TEXT,
     strategic_impact_score INTEGER,
     investability_score INTEGER,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(tool_or_group, company_name, category)
@@ -144,6 +182,8 @@ CREATE TABLE IF NOT EXISTS upcoming_events (
     expected_effect TEXT,
     watch_signals TEXT,
     notes TEXT,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE(company_name, product_or_segment, event_window, event_type, event_title)
 );
@@ -168,6 +208,8 @@ CREATE TABLE IF NOT EXISTS benchmark_metrics (
     customer_count_estimate INTEGER,
     data_confidence INTEGER,
     notes TEXT,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -182,6 +224,8 @@ CREATE TABLE IF NOT EXISTS metric_observations (
     source TEXT,
     source_url TEXT,
     confidence_score INTEGER,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -198,6 +242,8 @@ CREATE TABLE IF NOT EXISTS scenario_forecasts (
     probability_pct NUMERIC,
     confidence_score INTEGER,
     assumptions TEXT,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -212,6 +258,8 @@ CREATE TABLE IF NOT EXISTS signals (
     source_url TEXT,
     impact_score INTEGER,
     confidence_score INTEGER,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -231,6 +279,8 @@ CREATE TABLE IF NOT EXISTS scores (
     total_score INTEGER,
     decision TEXT,
     score_explanation TEXT,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -249,9 +299,15 @@ CREATE TABLE IF NOT EXISTS investment_memos (
     risks TEXT,
     decision TEXT,
     next_actions TEXT,
+    analysis_run_id INTEGER REFERENCES analysis_runs(id),
+    refreshed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE INDEX IF NOT EXISTS idx_analysis_runs_started ON analysis_runs(started_at DESC);
+CREATE INDEX IF NOT EXISTS idx_analysis_runs_type ON analysis_runs(run_type, cadence, status);
+CREATE INDEX IF NOT EXISTS idx_table_refresh_log_run ON table_refresh_log(analysis_run_id);
+CREATE INDEX IF NOT EXISTS idx_table_refresh_log_table ON table_refresh_log(table_name, refreshed_at DESC);
 CREATE INDEX IF NOT EXISTS idx_startups_country ON startups(country);
 CREATE INDEX IF NOT EXISTS idx_startups_sector ON startups(sector);
 CREATE INDEX IF NOT EXISTS idx_startups_stage ON startups(stage);
