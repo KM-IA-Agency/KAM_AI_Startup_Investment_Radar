@@ -14,6 +14,7 @@ from src.formatting import add_readable_columns, format_number, format_percent
 from src.ipo_view import render_ipo_and_share_view
 from src.refresh_service import refresh_market_data
 from src.scoring import score_dataframe
+from src.stage_view import render_stage_opportunities_view
 
 DATA_PATH = ROOT / "data" / "seeds" / "startups_seed.csv"
 BENCHMARK_PATH = ROOT / "data" / "seeds" / "benchmark_metrics_seed.csv"
@@ -26,6 +27,7 @@ AI_TOOLS_TAXONOMY_PATH = ROOT / "data" / "seeds" / "ai_tools_trending_by_categor
 VIBE_CODING_TOP20_PATH = ROOT / "data" / "seeds" / "vibe_coding_top20_july2026.csv"
 FORECAST_PATH = ROOT / "reports" / "forecasts" / "scenario_forecasts.csv"
 FORECAST_SHORT_PATH = ROOT / "reports" / "forecasts" / "scenario_forecasts_short_term.csv"
+EMPTY_FALLBACK_PATH = ROOT / "data" / "seeds" / "__empty_fallback.csv"
 
 st.set_page_config(page_title="KAM AI Startup Radar", layout="wide")
 st.title("KAM AI Startup Investment Radar")
@@ -177,10 +179,7 @@ financial_events_df, financial_events_source = load_optional_db_query(
     FINANCIAL_EVENTS_PATH,
 )
 ipo_events_df, ipo_source = load_optional_db_query(
-    """
-    SELECT ie.*
-    FROM ipo_events ie
-    """,
+    "SELECT ie.* FROM ipo_events ie",
     IPO_EVENTS_PATH,
 )
 public_market_df, public_market_source = load_optional_db_query(
@@ -203,12 +202,20 @@ ai_tools_taxonomy_df, ai_tools_source = load_optional_db_query(
     "SELECT * FROM ai_tools",
     AI_TOOLS_TAXONOMY_PATH,
 )
+growth_stage_df, growth_stage_source = load_optional_db_query(
+    "SELECT * FROM growth_stage_snapshots",
+    EMPTY_FALLBACK_PATH,
+)
+stage_opportunities_df, stage_opportunities_source = load_optional_db_query(
+    "SELECT * FROM stage_opportunities",
+    EMPTY_FALLBACK_PATH,
+)
 vibe_coding_top20_df = load_optional_csv(VIBE_CODING_TOP20_PATH)
 forecast_df, forecast_short_df, forecast_source = load_forecasts_db_first()
 
 st.info(
     f"Sources : startups={data_source} · ai_tools={ai_tools_source} · products={product_mapping_source} · "
-    f"benchmark={benchmark_source} · forecasts={forecast_source} · events={upcoming_events_source}"
+    f"benchmark={benchmark_source} · forecasts={forecast_source} · events={upcoming_events_source} · stages={growth_stage_source}"
 )
 
 with st.sidebar:
@@ -221,7 +228,7 @@ with st.sidebar:
     selected_decisions = st.multiselect("Décisions", decisions, default=decisions)
     min_score = st.slider("Score minimum", 0, 100, 0)
     selected_startup = st.selectbox("Startup focus", df["name"].tolist() if len(df) else [])
-    st.caption("Ce focus est propagé aux onglets compatibles : AI Tools, Benchmark, Forecasts, Timeline, IPO, Products & Events, Startup Detail.")
+    st.caption("Ce focus est propagé aux onglets compatibles : AI Tools, Benchmark, Forecasts, Timeline, Stage, IPO, Products & Events, Startup Detail.")
 
 filtered = df[
     df["country"].isin(selected_countries)
@@ -232,8 +239,8 @@ filtered = df[
 
 tabs = st.tabs([
     "Overview", "Watchlist", "AI Tools Stack", "Benchmark", "Forecasts",
-    "Financial Timeline", "IPO & Actions", "Products & Events",
-    "Physical AI", "Startup Detail"
+    "Financial Timeline", "Stage & Opportunities", "IPO & Actions",
+    "Products & Events", "Physical AI", "Startup Detail"
 ])
 
 with tabs[0]:
@@ -333,12 +340,15 @@ with tabs[5]:
                 st.line_chart(valuation / 1_000_000_000)
 
 with tabs[6]:
-    render_ipo_and_share_view(ipo_events_df, public_market_df, selected_company=selected_startup)
+    render_stage_opportunities_view(growth_stage_df, stage_opportunities_df, selected_company=selected_startup)
 
 with tabs[7]:
-    render_product_and_events_view(product_mapping_df, upcoming_events_df, selected_company=selected_startup)
+    render_ipo_and_share_view(ipo_events_df, public_market_df, selected_company=selected_startup)
 
 with tabs[8]:
+    render_product_and_events_view(product_mapping_df, upcoming_events_df, selected_company=selected_startup)
+
+with tabs[9]:
     st.subheader("Physical AI / Robotics")
     robotics = filtered[filtered["sector"].str.contains("Physical AI", na=False)]
     if robotics.empty:
@@ -350,7 +360,7 @@ with tabs[8]:
         if not robot_chart.empty:
             st.scatter_chart(robot_chart, x="risk_score", y="total_score", size="technical_moat_score")
 
-with tabs[9]:
+with tabs[10]:
     st.subheader("Fiche startup")
     if selected_startup:
         row = df[df["name"] == selected_startup].iloc[0]
@@ -372,6 +382,11 @@ with tabs[9]:
             k2.metric("Funding total", format_number(bmk.get("total_funding")))
             k3.metric("Dernier round", format_number(bmk.get("latest_round_amount")))
             k4.metric("Effectifs", format_number(bmk.get("employees_latest")))
+        related_stage = growth_stage_df[growth_stage_df.get("company_name", pd.Series(dtype=str)) == selected_startup] if not growth_stage_df.empty else pd.DataFrame()
+        if not related_stage.empty:
+            st.markdown("### Stage de croissance estimé")
+            cols = ["company_name", "current_stage", "next_likely_stage", "next_stage_horizon", "stage_confidence_score", "refreshed_at"]
+            st.dataframe(related_stage[safe_columns(related_stage, cols)], use_container_width=True)
         related_tools = ai_tools_taxonomy_df[ai_tools_taxonomy_df.get("company_name", pd.Series(dtype=str)) == selected_startup] if not ai_tools_taxonomy_df.empty else pd.DataFrame()
         if not related_tools.empty:
             st.markdown("### Outils / produits IA associés")
