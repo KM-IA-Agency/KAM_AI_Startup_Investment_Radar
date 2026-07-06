@@ -12,6 +12,7 @@ from src.db import get_engine
 from src.events_view import render_product_and_events_view
 from src.formatting import add_readable_columns, format_number, format_percent
 from src.ipo_view import render_ipo_and_share_view
+from src.refresh_service import refresh_market_data
 from src.scoring import score_dataframe
 
 DATA_PATH = ROOT / "data" / "seeds" / "startups_seed.csv"
@@ -130,6 +131,32 @@ def display_score_metrics(frame):
     c3.metric("Top score", int(frame["total_score"].max()) if len(frame) else 0)
     c4.metric("Kamel Edge moy.", metric_value(frame, "kamel_edge_score"))
     c5.metric("Risque moy.", metric_value(frame, "risk_score"))
+
+
+with st.sidebar:
+    st.header("Actualisation")
+    fast_refresh = st.checkbox(
+        "Mode rapide : ne pas recalculer les forecasts",
+        value=False,
+        help="Utile pour recharger les tables depuis les seeds/sources sans régénérer les scénarios prévisionnels.",
+    )
+    if st.button("🔄 Actualiser maintenant", type="primary", use_container_width=True):
+        try:
+            with st.spinner("Actualisation des données, écriture SQLite et vidage du cache..."):
+                result = refresh_market_data(
+                    cadence="manual",
+                    trigger_source="streamlit_button",
+                    skip_forecasting=fast_refresh,
+                    reset=True,
+                )
+                st.cache_data.clear()
+                st.session_state["refresh_message"] = result.message
+            st.rerun()
+        except Exception as exc:
+            st.error(f"Échec de l'actualisation : {exc}")
+
+if "refresh_message" in st.session_state:
+    st.success(st.session_state.pop("refresh_message"))
 
 
 df, data_source = load_data()
