@@ -67,6 +67,19 @@ def load_optional_csv(path):
     return pd.read_csv(path) if Path(path).exists() else pd.DataFrame()
 
 
+@st.cache_data
+def load_optional_db_table(table_name: str, fallback_path: str | Path) -> tuple[pd.DataFrame, str]:
+    try:
+        engine = get_engine()
+        frame = pd.read_sql(f"SELECT * FROM {table_name}", engine)
+        if not frame.empty:
+            return frame, f"Database:{table_name}"
+    except Exception:
+        pass
+    fallback = load_optional_csv(fallback_path)
+    return fallback, f"CSV:{Path(fallback_path).name}"
+
+
 def metric_value(df, column, default=0):
     if df.empty or column not in df.columns:
         return default
@@ -92,14 +105,14 @@ benchmark_df = load_optional_csv(BENCHMARK_PATH)
 financial_events_df = load_optional_csv(FINANCIAL_EVENTS_PATH)
 ipo_events_df = load_optional_csv(IPO_EVENTS_PATH)
 public_market_df = load_optional_csv(PUBLIC_MARKET_PATH)
-product_mapping_df = load_optional_csv(PRODUCT_MAPPING_PATH)
+product_mapping_df, product_mapping_source = load_optional_db_table("product_mappings", PRODUCT_MAPPING_PATH)
 upcoming_events_df = load_optional_csv(UPCOMING_EVENTS_PATH)
-ai_tools_taxonomy_df = load_optional_csv(AI_TOOLS_TAXONOMY_PATH)
+ai_tools_taxonomy_df, ai_tools_source = load_optional_db_table("ai_tools", AI_TOOLS_TAXONOMY_PATH)
 vibe_coding_top20_df = load_optional_csv(VIBE_CODING_TOP20_PATH)
 forecast_df = load_optional_csv(FORECAST_PATH)
 forecast_short_df = load_optional_csv(FORECAST_SHORT_PATH)
 
-st.info(f"Source de données active : {data_source}")
+st.info(f"Source de données active : {data_source} · AI tools : {ai_tools_source} · Product mappings : {product_mapping_source}")
 
 with st.sidebar:
     st.header("Filtres")
