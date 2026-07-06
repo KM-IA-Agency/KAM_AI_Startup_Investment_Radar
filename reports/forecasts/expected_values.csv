@@ -1,5 +1,6 @@
 name,horizon_months,horizon_bucket,metric_name,expected_forecast_value,confidence_score
 Figure AI,1,short_term,valuation_latest,41483081105.53297,2.0
+Anysphere,1,short_term,valuation_latest,31584693997.950283,2.0
 Baseten,1,short_term,valuation_latest,13827693701.844322,2.0
 Mistral AI,1,short_term,valuation_latest,6268711101.7241955,2.0
 Hugging Face,1,short_term,valuation_latest,4633055999.932342,2.0
@@ -7,9 +8,11 @@ Skild AI,1,short_term,valuation_latest,4206085850.6565003,2.0
 1X Technologies,1,short_term,valuation_latest,2593758689.1685295,2.0
 Physical Intelligence,1,short_term,valuation_latest,2538707003.4525843,2.0
 Apptronik,1,short_term,valuation_latest,1561827820.468034,2.0
+Nous Research,1,short_term,valuation_latest,1044785183.6206992,1.0
 Agility Robotics,1,short_term,valuation_latest,1025311023.7404461,2.0
 Kayrros,1,short_term,valuation_latest,1020831070.3020474,2.0
 Figure AI,2,short_term,valuation_latest,44138015211.04201,2.0
+Anysphere,2,short_term,valuation_latest,34061120681.17089,2.0
 Baseten,2,short_term,valuation_latest,14712671737.014006,2.0
 Mistral AI,2,short_term,valuation_latest,6550719600.088636,2.0
 Hugging Face,2,short_term,valuation_latest,4770532318.760856,2.0
@@ -17,9 +20,11 @@ Skild AI,2,short_term,valuation_latest,4423830082.700012,2.0
 1X Technologies,2,short_term,valuation_latest,2691432106.0912676,2.0
 Physical Intelligence,2,short_term,valuation_latest,2686168829.944053,2.0
 Apptronik,2,short_term,valuation_latest,1626481716.4765499,2.0
+Nous Research,2,short_term,valuation_latest,1091786600.0147727,1.0
 Agility Robotics,2,short_term,valuation_latest,1051345736.2765236,2.0
 Kayrros,2,short_term,valuation_latest,1042155294.0743778,2.0
 Figure AI,3,short_term,valuation_latest,46977660807.85982,2.0
+Anysphere,3,short_term,valuation_latest,36746525487.889786,2.0
 Baseten,3,short_term,valuation_latest,15659220269.286606,2.0
 Mistral AI,3,short_term,valuation_latest,6846746835.28034,2.0
 Hugging Face,3,short_term,valuation_latest,4912592164.933096,2.0
@@ -27,9 +32,11 @@ Skild AI,3,short_term,valuation_latest,4653951835.925475,2.0
 Physical Intelligence,3,short_term,valuation_latest,2842985262.91395,2.0
 1X Technologies,3,short_term,valuation_latest,2793200553.634702,2.0
 Apptronik,3,short_term,valuation_latest,1694103717.0233164,2.0
+Nous Research,3,short_term,valuation_latest,1141124472.5467234,1.0
 Agility Robotics,3,short_term,valuation_latest,1078127234.447349,2.0
 Kayrros,3,short_term,valuation_latest,1063985766.571264,2.0
 Figure AI,6,short_term,valuation_latest,56749407783.10341,2.0
+Anysphere,6,short_term,valuation_latest,46254792530.06798,2.0
 Baseten,6,short_term,valuation_latest,18916469261.03447,2.0
 Mistral AI,6,short_term,valuation_latest,7826803674.654905,2.0
 Skild AI,6,short_term,valuation_latest,5426509498.595929,2.0
@@ -37,9 +44,11 @@ Hugging Face,6,short_term,valuation_latest,5368005039.540626,2.0
 Physical Intelligence,6,short_term,valuation_latest,3376241564.838585,2.0
 1X Technologies,6,short_term,valuation_latest,3125016962.372366,2.0
 Apptronik,6,short_term,valuation_latest,1916317100.8898797,2.0
+Nous Research,6,short_term,valuation_latest,1304467279.109151,1.0
 Agility Robotics,6,short_term,valuation_latest,1163195658.4340754,2.0
 Kayrros,6,short_term,valuation_latest,1132651408.3333848,2.0
 Figure AI,12,long_term,valuation_latest,83553600000.0,2.0
+Anysphere,12,long_term,valuation_latest,74129000000.0,2.0
 Baseten,12,long_term,valuation_latest,27851200000.0,2.0
 Mistral AI,12,long_term,valuation_latest,10284000000.0,2.0
 Skild AI,12,long_term,valuation_latest,7427200000.0,2.0
@@ -47,8 +56,10 @@ Hugging Face,12,long_term,valuation_latest,6427800000.0,2.0
 Physical Intelligence,12,long_term,valuation_latest,4799040000.0,2.0
 1X Technologies,12,long_term,valuation_latest,3928000000.0,2.0
 Apptronik,12,long_term,valuation_latest,2463900000.0,2.0
+Nous Research,12,long_term,valuation_latest,1714000000.0,1.0
 Agility Robotics,12,long_term,valuation_latest,1357000000.0,2.0
 Kayrros,12,long_term,valuation_latest,1285600000.0,2.0
+Anysphere,36,long_term,valuation_latest,573181250000.0,2.0
 Figure AI,36,long_term,valuation_latest,445009304064.0,2.0
 Baseten,36,long_term,valuation_latest,148336434688.0,2.0
 Mistral AI,36,long_term,valuation_latest,33129815999.999992,2.0
@@ -57,8 +68,10 @@ Physical Intelligence,36,long_term,valuation_latest,21882925593.600002,2.0
 Hugging Face,36,long_term,valuation_latest,13762339632.0,2.0
 1X Technologies,36,long_term,valuation_latest,10405703680.0,2.0
 Apptronik,36,long_term,valuation_latest,7212444485.999998,2.0
+Nous Research,36,long_term,valuation_latest,5521635999.999999,1.0
 Agility Robotics,36,long_term,valuation_latest,2593364500.0,2.0
 Kayrros,36,long_term,valuation_latest,2181827584.0,2.0
+Anysphere,60,long_term,valuation_latest,5605077488900.001,2.0
 Figure AI,60,long_term,valuation_latest,2876400301801.872,2.0
 Baseten,60,long_term,valuation_latest,958800100600.624,2.0
 Skild AI,60,long_term,valuation_latest,128754940362.56854,2.0
@@ -67,5 +80,6 @@ Physical Intelligence,60,long_term,valuation_latest,118782823647.37271,2.0
 Hugging Face,60,long_term,valuation_latest,31563250355.225555,2.0
 1X Technologies,60,long_term,valuation_latest,30440660996.620293,2.0
 Apptronik,60,long_term,valuation_latest,23652179007.676666,2.0
+Nous Research,60,long_term,valuation_latest,20201678520.63999,1.0
 Agility Robotics,60,long_term,valuation_latest,5226897248.77,2.0
 Kayrros,60,long_term,valuation_latest,3846117106.4897537,2.0
