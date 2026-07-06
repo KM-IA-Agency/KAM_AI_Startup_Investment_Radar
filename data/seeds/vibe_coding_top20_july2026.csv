@@ -1,0 +1,21 @@
+rank,tool_or_group,company_or_owner,primary_role,category,investable_entity,status,why_it_matters,radar_action
+1,ChatGPT,OpenAI,General AI assistant plus Codex coding workflows,General AI / Coding platform,OpenAI,private,Mass adoption and direct entry point to Codex and app-building workflows,Track as strategic platform risk and opportunity
+2,Gemini,Alphabet / Google,General AI assistant plus coding and multimodal workflows,General AI / Coding platform,Alphabet,public,Strong integration with Google Cloud Android Workspace and Gemini Code Assist,Use as public comparable via GOOGL
+3,Claude,Anthropic,General AI assistant and agentic model family,General AI / Coding platform,Anthropic,private,Strong developer reputation and Claude Code ecosystem,Track as strategic platform risk
+4,DeepSeek,DeepSeek,Low-cost reasoning and coding models,Open-weight / Low-cost models,DeepSeek,private,Important cost-pressure benchmark against US frontier models,Track for model economics and local deployment
+5,Grok,xAI,General AI assistant with coding and real-time context,General AI / Coding platform,xAI,private,Potential integration with X and xAI infra; watch developer adoption,Track as strategic platform
+6,Perplexity,Perplexity AI,AI answer engine and research assistant,Research / Knowledge assistant,Perplexity AI,private,Useful for research and product discovery but not vibe coding core,Track as adjacent research workflow
+7,Microsoft Copilot,Microsoft,Productivity assistant across Microsoft 365 and Windows,Productivity AI,Microsoft,public,Enterprise distribution channel and agent platform,Use as public comparable via MSFT
+8,GitHub Copilot,Microsoft / GitHub,AI coding assistant and CLI/agent workflow,AI Coding,Microsoft,public,One of the main enterprise coding-agent comparables,Use as public comparable via MSFT
+9,Cursor,Anysphere,AI coding IDE and coding agent,AI Coding / Vibe Coding,Anysphere,private,Core vibe-coding product with strong developer adoption,Top priority private watchlist
+10,Claude Code,Anthropic,CLI and agentic coding workflow,AI Coding / Agentic coding,Anthropic,private,Strong signal in coding-agent adoption and enterprise workflows,Track as strategic platform risk
+11,Lovable,Lovable,Prompt-to-app builder,Vibe Coding / App builder,Lovable,private,High-growth app builder category leader to validate,Top priority private watchlist
+12,Bolt.new,StackBlitz,Browser-based AI app builder,Vibe Coding / App builder,StackBlitz,private,Fast app generation workflow and GitHub sync,Track versus Lovable and Replit
+13,Replit Agent,Replit,Cloud IDE and AI app-generation agent,Vibe Coding / Cloud IDE,Replit,private,Useful bridge between non-technical builders and deployment,Track product reliability and conversion
+14,NotebookLM,Alphabet / Google,AI notebook and knowledge synthesis,Knowledge assistant,Alphabet,public,Not vibe coding core but useful in research-to-build workflow,Track as adjacent workflow via GOOGL
+15,Canva AI,Canva,Design and content generation suite,Design AI,Canva,private,Useful for landing pages assets and product marketing,Track as adjacent builder workflow
+16,Gamma,Gamma,AI presentation and document generation,Presentation / GTM AI,Gamma,private,Useful for pitch decks product docs and investor communication,Track as adjacent GTM workflow
+17,Midjourney / DALL-E / Ideogram,Midjourney / OpenAI / Ideogram,Image generation and visual ideation,Creative AI,Mixed,private/mixed,Useful for UI concepts branding and content assets,Track as creative stack not coding core
+18,Runway / Veo / Sora / Kling / Luma,Runway / Google / OpenAI / Kuaishou / Luma,Video generation and product storytelling,Video AI,Mixed,private/public/mixed,Useful for demos ads explainers and product launches,Track as creative stack not coding core
+19,ElevenLabs / Suno,ElevenLabs / Suno,Voice audio and music generation,Audio AI,Mixed,private,Useful for content creation and product media,Track as creative stack not coding core
+20,n8n / Zapier AI / Make / LangGraph / AutoGen,n8n / Zapier / Celonis? / LangChain / Microsoft,Workflow automation and agent orchestration,Automation / Agent frameworks,Mixed,mixed,Critical for wiring vibe-coded apps into real workflows,Track as automation layer and integration moat
