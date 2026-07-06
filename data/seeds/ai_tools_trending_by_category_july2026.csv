@@ -1,0 +1,67 @@
+category,tool_or_group,company_or_owner,role,investment_relevance,radar_priority,notes
+Assistants IA generalistes,ChatGPT,OpenAI,Assistant generaliste et coding/Codex,Strategic platform,High,Standard de marche; interface centrale pour ideation recherche code et agents.
+Assistants IA generalistes,Gemini,Alphabet / Google,Assistant generaliste multimodal et Workspace,Public comparable,High,Challenger integre a Google Search Workspace Android Cloud et AI Mode.
+Assistants IA generalistes,Claude,Anthropic,Assistant pro documents longs coding et Claude Code,Strategic platform,High,Tres fort pour devs analystes documents longs et workflows agentiques.
+Assistants IA generalistes,DeepSeek,DeepSeek,Modeles low-cost reasoning/coding,Model economics,High,Important pour cout open-weight local/souverain et pression prix.
+Assistants IA generalistes,Qwen,Alibaba,Modeles open-weight et cloud,Public comparable,High,Acteur chinois cle pour open-weight et deploiement local/souverain.
+Assistants IA generalistes,Kimi,Moonshot AI,Assistant/modeles long context,Private model company,Medium,Important pour long-context chinois et cout.
+Assistants IA generalistes,Mistral,Mistral AI,Modeles europeens open/enterprise,Private model company,High,Strategique pour souverainete europeenne et enterprise AI.
+Assistants IA generalistes,GLM / GLM-5.2,Z.ai,Modeles coding/agents low-cost,Public comparable,High,Signal fort juillet 2026 chez developpeurs; suivre ZCode et OpenRouter.
+Assistants IA generalistes,Grok,xAI,Assistant conversationnel lie a X,Strategic platform,Medium,Distribution grand public via X et ecosysteme xAI.
+Recherche IA,Perplexity,Perplexity AI,Recherche web avec sources,Private search AI,High,Remplace une partie de Google Search par reponses structurees avec sources.
+Recherche IA,ChatGPT Search,OpenAI,Recherche plus synthese,Strategic platform,High,Recherche conversationnelle integree a ChatGPT.
+Recherche IA,Gemini / AI Mode Google,Alphabet / Google,Recherche IA dans ecosysteme Google,Public comparable,High,Transition de Google Search vers reponses IA.
+Recherche IA,You.com,You.com,Recherche IA et agents,Private search AI,Medium,Alternative orientee recherche conversationnelle.
+Recherche IA,Genspark,Genspark,Recherche et agents,Private search/agents,Medium,Positionnement recherche + agents.
+Recherche IA,Liner,Liner,Recherche/synthese assistee,Private search AI,Low,Alternative recherche synthese a surveiller.
+Productivite bureau entreprise,Microsoft 365 Copilot,Microsoft,Word Excel PowerPoint Outlook Teams,Public comparable,High,Distribution enterprise massive via Microsoft.
+Productivite bureau entreprise,Google Gemini Workspace,Alphabet / Google,Gmail Docs Sheets Drive,Public comparable,High,Distribution enterprise via Google Workspace.
+Productivite bureau entreprise,Notion AI,Notion,Notes docs knowledge base,Private productivity AI,Medium,Knowledge base et workspace IA.
+Productivite bureau entreprise,Grammarly,Grammarly,Ecriture correction ton,Private productivity AI,Medium,Usage horizontal fort dans l'ecriture pro.
+Productivite bureau entreprise,NotebookLM,Alphabet / Google,Analyse docs sources syntheses,Public comparable,Medium,Excellent pour recherche documents et knowledge workflows.
+Productivite bureau entreprise,Glean,Glean,Recherche interne entreprise,Private enterprise AI,High,Recherche interne entreprise et knowledge assistant.
+Productivite bureau entreprise,Gamma,Gamma,Presentations IA,Private productivity AI,Medium,Pitch decks et docs de presentation.
+Code developpement logiciel,GitHub Copilot,Microsoft / GitHub,Assistant code standard entreprise,Public comparable,High,Reference enterprise developer productivity.
+Code developpement logiciel,Cursor,Anysphere,IDE IA et agent de code,Private AI coding,High,Produit phare vibe coding avance.
+Code developpement logiciel,Claude Code,Anthropic,CLI/agent coding,Strategic platform,High,Fort pour workflows agentiques dev.
+Code developpement logiciel,OpenAI Codex,OpenAI,Agents de code,Strategic platform,High,Plateforme majeure pour agents dev.
+Code developpement logiciel,Windsurf,Cognition AI / legacy Codeium,IDE agentique,Private AI coding,High,Consolidation a valider; comparable important.
+Code developpement logiciel,Replit Agent,Replit,Creer/deployer app depuis navigateur,Private AI coding,High,Bridge no-code/dev et deploiement.
+Code developpement logiciel,Lovable,Lovable,App builder prompt-to-app,Private AI coding,High,Cas d'usage vibe coding tres tendance.
+Code developpement logiciel,Bolt.new,StackBlitz,Generation apps web,Private AI coding,High,Concurrent Lovable/Replit pour apps web rapides.
+Code developpement logiciel,v0,Vercel,Generation UI/front-end,Private AI coding,High,Frontend IA et integration Vercel.
+Code developpement logiciel,Base44,Wix,App builder no-code/IA,Public/strategic via Wix,Medium,Rachete par Wix; signal consolidation no-code IA.
+Code developpement logiciel,Devin,Cognition AI,Agent logiciel autonome,Private AI coding,High,Orientation enterprise software engineering agent.
+Image design creation,Canva AI / Magic Studio,Canva,Design grand public/pro,Private creative AI,High,Usage massif pour builders marketing design.
+Image design creation,Midjourney,Midjourney,Image artistique premium,Private creative AI,Medium,Communaute specialisee et forte qualite visuelle.
+Image design creation,DALL-E / ChatGPT image,OpenAI,Generation et edition image integree,Strategic platform,Medium,Integration dans ChatGPT et workflows multimodaux.
+Image design creation,Ideogram,Ideogram,Texte dans images logos affiches,Private creative AI,Medium,Differenciation sur texte/logo/affiches.
+Image design creation,Leonardo AI,Canva,Createurs jeux design,Private/strategic via Canva,Medium,Actif creatif specialise; integration Canva a suivre.
+Image design creation,Adobe Firefly,Adobe,Image/design pro securise,Public comparable,High,Enterprise creative stack via Adobe.
+Image design creation,Freepik / Photoroom / Remove.bg / Pixelcut,Mixed,Marketing e-commerce detourage visuels rapides,Mixed,Medium,Workflow e-commerce et marketing.
+Video IA,Sora,OpenAI,Video generative,Strategic platform,High,Plateforme video IA majeure.
+Video IA,Google Veo / Flow,Alphabet / Google,Generation video et workflow film,Public comparable,High,Acteur video IA majeur via Google DeepMind.
+Video IA,Runway,Runway,Studio video IA complet,Private video AI,High,Leader startup video creative AI.
+Video IA,Kling AI,Kuaishou,Video realiste,Public comparable,High,Acteur chinois fort en video IA.
+Video IA,Luma Dream Machine,Luma AI,Image-to-video scenes realistes,Private video AI,Medium,Workflow image/video realiste.
+Video IA,Pika,Pika Labs,Video courte createurs social,Private video AI,Medium,Creation social media.
+Video IA,CapCut AI,ByteDance,Montage video grand public massif,Private/strategic via ByteDance,High,Distribution massive et fonctions IA integrees.
+Audio voix musique,ElevenLabs,ElevenLabs,Voix doublage clonage narration,Private audio AI,High,Voix/audio defendable et adoption pro.
+Audio voix musique,Suno,Suno,Generation musicale,Private audio AI,High,Musique IA grand public/creator economy.
+Audio voix musique,Udio,Udio,Generation musicale,Private audio AI,Medium,Concurrent Suno.
+Audio voix musique,Descript,Descript,Montage audio/video IA,Private creator AI,Medium,Workflow podcast/video editing.
+Audio voix musique,HeyGen,HeyGen,Avatars video doublage presentations,Private video/avatar AI,Medium,Corporate video avatars et localisation.
+Audio voix musique,Synthesia,Synthesia,Videos corporate avatars,Private video/avatar AI,Medium,Enterprise training videos.
+Agents IA automatisation,Manus,Manus,Agent generaliste,Private agents,Medium,Agent generaliste tendance a verifier.
+Agents IA automatisation,Genspark,Genspark,Recherche + agents,Private agents/search,Medium,Convergence recherche-agent.
+Agents IA automatisation,OpenClaw,Open-source community,Agent local open source,Open-source agent,Low,Surveiller adoption GitHub et cas local.
+Agents IA automatisation,n8n AI,n8n,Workflow automation open-source/low-code,Private automation,High,Cle pour connecter apps vibe-coded aux workflows reels.
+Agents IA automatisation,Zapier AI,Zapier,Automation SaaS grand public/pro,Private automation,High,Distribution massive SMB/workflows.
+Agents IA automatisation,Make AI,Make,Automation visuelle,Private automation,Medium,Workflow no-code visuel.
+Agents IA automatisation,ChatGPT Apps/GPTs,OpenAI,Agents connectes outils,Strategic platform,High,Distribution d'agents via ChatGPT.
+Agents IA automatisation,Claude MCP / Connectors,Anthropic,Connecteurs pro data dev science,Strategic platform,High,Standard/connecteurs pour agents entreprise.
+Agents IA automatisation,Microsoft Copilot Studio,Microsoft,Agents entreprise,Public comparable,High,Plateforme agents enterprise Microsoft.
+Agents IA automatisation,LangGraph,LangChain,Framework agents,Private/open-source infra,High,Framework de reference pour agents stateful.
+Agents IA automatisation,AutoGen,Microsoft,Framework agents,Public/open-source infra,Medium,Framework multi-agent Microsoft.
+Agents IA automatisation,CrewAI,CrewAI,Framework agents,Private/open-source infra,Medium,Framework multi-agent populaire.
+Agents IA automatisation,OpenRouter,OpenRouter,Routage multi-modeles,Private infra,High,Mesure adoption modele et permet arbitrage cout/performance.
