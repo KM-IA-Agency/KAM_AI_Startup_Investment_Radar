@@ -65,7 +65,63 @@ Focuses on tools that directly build software or code workflows:
 - Devin;
 - Z.ai GLM-5.2 / ZCode.
 
-### 4. Investability
+### 4. Impact × Investability
+
+Displays a scatter matrix:
+
+- X axis: `investability_score`
+- Y axis: `strategic_impact_score`
+- Bubble size: radar priority
+
+Quadrants:
+
+| Quadrant | Meaning |
+|---|---|
+| High impact / Investable | High strategic value and easier public or comparable exposure |
+| High impact / Hard to access | Strategically important but private or difficult to access |
+| Investable comparable | Public/comparable exposure but lower direct startup upside |
+| Workflow / Watchlist | Useful builder workflow tools or weaker investment signal |
+
+The current scoring is heuristic. It combines:
+
+- radar priority;
+- category;
+- investment relevance;
+- recent signal keywords;
+- core Vibe Coding keywords;
+- public/private/platform accessibility.
+
+It is intended for prioritization, not as financial advice.
+
+### 5. Top 10
+
+Creates a monthly-style Top 10 list of tools/signals to watch.
+
+The score combines:
+
+- strategic impact;
+- investability;
+- radar priority;
+- recent signal bonus.
+
+Recent signal keywords currently include:
+
+- GLM-5.2;
+- ZCode;
+- Cursor;
+- Claude Code;
+- Codex;
+- Lovable;
+- Windsurf;
+- Replit Agent;
+- Bolt.new;
+- OpenRouter;
+- LangGraph;
+- n8n.
+
+This produces a practical watchlist for monthly review.
+
+### 6. Investability
 
 Separates:
 
@@ -74,9 +130,19 @@ Separates:
 - strategic platform risks;
 - workflow utilities.
 
-### 5. Tool Detail
+### 7. Tool Detail
 
-Displays a detailed card for one selected tool or product group.
+Displays a detailed card for one selected tool or product group, including:
+
+- category;
+- radar priority;
+- company/owner;
+- strategic impact score;
+- investability score;
+- quadrant;
+- role;
+- investment relevance;
+- notes.
 
 ## Run
 
@@ -92,8 +158,9 @@ AI Tools Stack
 
 ## Next improvements
 
-- Add heatmap by impact versus investability.
+- Add real event signals from `upcoming_events_seed.csv`.
+- Add source citations and validation status per tool.
 - Add public/private status from product mapping.
-- Add monthly Top 10 priorities.
-- Connect event signals from `upcoming_events_seed.csv`.
+- Add monthly history to track ranking changes.
 - Add charts for category momentum over time.
+- Add export of the Top 10 monthly watchlist.
