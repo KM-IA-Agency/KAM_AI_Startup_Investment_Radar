@@ -12,6 +12,7 @@ from src.db import get_engine
 from src.events_view import render_product_and_events_view
 from src.formatting import add_readable_columns, format_number, format_percent
 from src.ipo_view import render_ipo_and_share_view
+from src.refresh_service import refresh_market_data
 from src.scoring import score_dataframe
 
 DATA_PATH = ROOT / "data" / "seeds" / "startups_seed.csv"
@@ -68,16 +69,48 @@ def load_optional_csv(path):
 
 
 @st.cache_data
-def load_optional_db_table(table_name: str, fallback_path: str | Path) -> tuple[pd.DataFrame, str]:
+def load_optional_db_query(query: str, fallback_path: str | Path) -> tuple[pd.DataFrame, str]:
     try:
         engine = get_engine()
-        frame = pd.read_sql(f"SELECT * FROM {table_name}", engine)
+        frame = pd.read_sql(query, engine)
         if not frame.empty:
-            return frame, f"Database:{table_name}"
+            return frame, "Database"
     except Exception:
         pass
     fallback = load_optional_csv(fallback_path)
     return fallback, f"CSV:{Path(fallback_path).name}"
+
+
+@st.cache_data
+def load_forecasts_db_first() -> tuple[pd.DataFrame, pd.DataFrame, str]:
+    query = """
+    SELECT s.name,
+           sf.forecast_date,
+           sf.horizon_months,
+           CASE WHEN sf.horizon_months <= 6 THEN 'short_term' ELSE 'long_term' END AS horizon_bucket,
+           sf.scenario,
+           sf.scenario AS scenario_label,
+           sf.metric_name,
+           sf.current_value,
+           sf.forecast_value,
+           sf.implied_cagr_pct,
+           sf.probability_pct,
+           sf.confidence_score,
+           sf.assumptions
+    FROM scenario_forecasts sf
+    LEFT JOIN startups s ON s.id = sf.startup_id
+    """
+    try:
+        engine = get_engine()
+        frame = pd.read_sql(query, engine)
+        if not frame.empty:
+            short = frame[frame["horizon_months"] <= 6].copy()
+            return frame, short, "Database"
+    except Exception:
+        pass
+    full = load_optional_csv(FORECAST_PATH)
+    short = load_optional_csv(FORECAST_SHORT_PATH)
+    return full, short, "CSV forecast files"
 
 
 def metric_value(df, column, default=0):
@@ -100,19 +133,83 @@ def display_score_metrics(frame):
     c5.metric("Risque moy.", metric_value(frame, "risk_score"))
 
 
-df, data_source = load_data()
-benchmark_df = load_optional_csv(BENCHMARK_PATH)
-financial_events_df = load_optional_csv(FINANCIAL_EVENTS_PATH)
-ipo_events_df = load_optional_csv(IPO_EVENTS_PATH)
-public_market_df = load_optional_csv(PUBLIC_MARKET_PATH)
-product_mapping_df, product_mapping_source = load_optional_db_table("product_mappings", PRODUCT_MAPPING_PATH)
-upcoming_events_df = load_optional_csv(UPCOMING_EVENTS_PATH)
-ai_tools_taxonomy_df, ai_tools_source = load_optional_db_table("ai_tools", AI_TOOLS_TAXONOMY_PATH)
-vibe_coding_top20_df = load_optional_csv(VIBE_CODING_TOP20_PATH)
-forecast_df = load_optional_csv(FORECAST_PATH)
-forecast_short_df = load_optional_csv(FORECAST_SHORT_PATH)
+with st.sidebar:
+    st.header("Actualisation")
+    fast_refresh = st.checkbox(
+        "Mode rapide : ne pas recalculer les forecasts",
+        value=False,
+        help="Utile pour recharger les tables depuis les seeds/sources sans régénérer les scénarios prévisionnels.",
+    )
+    if st.button("🔄 Actualiser maintenant", type="primary", use_container_width=True):
+        try:
+            with st.spinner("Actualisation des données, écriture SQLite et vidage du cache..."):
+                result = refresh_market_data(
+                    cadence="manual",
+                    trigger_source="streamlit_button",
+                    skip_forecasting=fast_refresh,
+                    reset=True,
+                )
+                st.cache_data.clear()
+                st.session_state["refresh_message"] = result.message
+            st.rerun()
+        except Exception as exc:
+            st.error(f"Échec de l'actualisation : {exc}")
 
-st.info(f"Source de données active : {data_source} · AI tools : {ai_tools_source} · Product mappings : {product_mapping_source}")
+if "refresh_message" in st.session_state:
+    st.success(st.session_state.pop("refresh_message"))
+
+
+df, data_source = load_data()
+benchmark_df, benchmark_source = load_optional_db_query(
+    """
+    SELECT s.name, bm.*
+    FROM benchmark_metrics bm
+    LEFT JOIN startups s ON s.id = bm.startup_id
+    """,
+    BENCHMARK_PATH,
+)
+financial_events_df, financial_events_source = load_optional_db_query(
+    """
+    SELECT s.name, fe.*
+    FROM financial_events fe
+    LEFT JOIN startups s ON s.id = fe.startup_id
+    """,
+    FINANCIAL_EVENTS_PATH,
+)
+ipo_events_df, ipo_source = load_optional_db_query(
+    """
+    SELECT ie.*
+    FROM ipo_events ie
+    """,
+    IPO_EVENTS_PATH,
+)
+public_market_df, public_market_source = load_optional_db_query(
+    """
+    SELECT s.name, pmo.*
+    FROM public_market_observations pmo
+    LEFT JOIN startups s ON s.id = pmo.startup_id
+    """,
+    PUBLIC_MARKET_PATH,
+)
+product_mapping_df, product_mapping_source = load_optional_db_query(
+    "SELECT * FROM product_mappings",
+    PRODUCT_MAPPING_PATH,
+)
+upcoming_events_df, upcoming_events_source = load_optional_db_query(
+    "SELECT * FROM upcoming_events",
+    UPCOMING_EVENTS_PATH,
+)
+ai_tools_taxonomy_df, ai_tools_source = load_optional_db_query(
+    "SELECT * FROM ai_tools",
+    AI_TOOLS_TAXONOMY_PATH,
+)
+vibe_coding_top20_df = load_optional_csv(VIBE_CODING_TOP20_PATH)
+forecast_df, forecast_short_df, forecast_source = load_forecasts_db_first()
+
+st.info(
+    f"Sources : startups={data_source} · ai_tools={ai_tools_source} · products={product_mapping_source} · "
+    f"benchmark={benchmark_source} · forecasts={forecast_source} · events={upcoming_events_source}"
+)
 
 with st.sidebar:
     st.header("Filtres")
@@ -187,7 +284,7 @@ with tabs[4]:
     selected_view = st.radio("Vue", ["Court terme 1/2/3/6 mois", "Complet 1 à 60 mois"], horizontal=True)
     active_forecast = forecast_short_df if selected_view.startswith("Court") else forecast_df
     if active_forecast.empty:
-        st.warning("Aucun forecast généré. Lance `python src/forecasting.py`.")
+        st.warning("Aucun forecast généré. Lance `python src/forecasting.py` puis `python src/load_to_db.py`.")
     else:
         focus = active_forecast[active_forecast["name"] == selected_startup]
         if not focus.empty:
@@ -198,6 +295,8 @@ with tabs[4]:
             if not pivot.empty:
                 st.line_chart(pivot / 1_000_000_000)
                 st.caption("Axe en milliards. Exemple : 13 = 13 Mrd.")
+        else:
+            st.info("Aucun forecast pour la startup sélectionnée.")
 
 with tabs[5]:
     st.subheader("Financial Timeline")
