@@ -1,0 +1,6 @@
+source_name,source_type,url,signal,confidence_score,notes
+Reuters,news,https://www.reuters.com/world/china/a-new-inexpensive-chinese-ai-model-is-catching-up-with-anthropic-openai-their-2026-07-02/,GLM-5.2 gaining traction with coding and agentic performance at lower cost,3,Use for signal validation.
+Business Insider,news,https://www.businessinsider.com/z-ai-zcode-ai-coding-tool-chinese-startup-lower-cost-2026-7,ZCode launch and low-cost positioning versus Cursor and Copilot,2,Use with caution; validate details.
+Barrons,news,https://www.barrons.com/articles/chinese-ai-models-openai-anthropic-google-pricing-4093f153,Chinese AI model pricing pressure on US model makers,2,Useful for economics and pricing thesis.
+arXiv,academic,https://arxiv.org/abs/2602.15763,GLM-5 from Vibe Coding to Agentic Engineering,3,Technical baseline for GLM family coding/agentic capabilities.
+arXiv,academic,https://arxiv.org/abs/2601.18341,Coding agents adoption on GitHub,3,Useful benchmark for overall coding-agent market adoption.
