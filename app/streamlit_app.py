@@ -221,6 +221,7 @@ with st.sidebar:
     selected_decisions = st.multiselect("Décisions", decisions, default=decisions)
     min_score = st.slider("Score minimum", 0, 100, 0)
     selected_startup = st.selectbox("Startup focus", df["name"].tolist() if len(df) else [])
+    st.caption("Ce focus est propagé aux onglets compatibles : AI Tools, Benchmark, Forecasts, Timeline, IPO, Products & Events, Startup Detail.")
 
 filtered = df[
     df["country"].isin(selected_countries)
@@ -260,7 +261,7 @@ with tabs[1]:
         st.scatter_chart(chart_df, x="risk_score", y="total_score", size="kamel_edge_score")
 
 with tabs[2]:
-    render_ai_tools_stack_view(ai_tools_taxonomy_df, vibe_coding_top20_df)
+    render_ai_tools_stack_view(ai_tools_taxonomy_df, vibe_coding_top20_df, selected_company=selected_startup)
 
 with tabs[3]:
     st.subheader("Benchmark classique : CA, valorisation, funding, croissance")
@@ -268,6 +269,15 @@ with tabs[3]:
         st.warning("Aucun benchmark disponible. Lance ou renseigne data/seeds/benchmark_metrics_seed.csv.")
     else:
         merged = filtered[["name", "sector", "total_score", "risk_score", "kamel_edge_score", "decision"]].merge(benchmark_df, on="name", how="left")
+        focus_benchmark = merged[merged["name"] == selected_startup].copy()
+        if not focus_benchmark.empty:
+            st.markdown(f"### Focus benchmark — {selected_startup}")
+            focus_row = focus_benchmark.iloc[0]
+            f1, f2, f3, f4 = st.columns(4)
+            f1.metric("Valorisation", format_number(focus_row.get("valuation_latest")))
+            f2.metric("Funding total", format_number(focus_row.get("total_funding")))
+            f3.metric("Dernier round", format_number(focus_row.get("latest_round_amount")))
+            f4.metric("Effectifs", format_number(focus_row.get("employees_latest")))
         b1, b2, b3, b4 = st.columns(4)
         b1.metric("Valorisation moy.", format_number(merged["valuation_latest"].dropna().mean()))
         b2.metric("Funding moyen", format_number(merged["total_funding"].dropna().mean()))
@@ -323,10 +333,10 @@ with tabs[5]:
                 st.line_chart(valuation / 1_000_000_000)
 
 with tabs[6]:
-    render_ipo_and_share_view(ipo_events_df, public_market_df)
+    render_ipo_and_share_view(ipo_events_df, public_market_df, selected_company=selected_startup)
 
 with tabs[7]:
-    render_product_and_events_view(product_mapping_df, upcoming_events_df)
+    render_product_and_events_view(product_mapping_df, upcoming_events_df, selected_company=selected_startup)
 
 with tabs[8]:
     st.subheader("Physical AI / Robotics")
@@ -362,6 +372,16 @@ with tabs[9]:
             k2.metric("Funding total", format_number(bmk.get("total_funding")))
             k3.metric("Dernier round", format_number(bmk.get("latest_round_amount")))
             k4.metric("Effectifs", format_number(bmk.get("employees_latest")))
+        related_tools = ai_tools_taxonomy_df[ai_tools_taxonomy_df.get("company_name", pd.Series(dtype=str)) == selected_startup] if not ai_tools_taxonomy_df.empty else pd.DataFrame()
+        if not related_tools.empty:
+            st.markdown("### Outils / produits IA associés")
+            cols = ["company_name", "tool_or_group", "category", "role", "investment_relevance", "radar_priority", "notes"]
+            st.dataframe(related_tools[safe_columns(related_tools, cols)], use_container_width=True)
+        related_products = product_mapping_df[product_mapping_df.get("company_name", pd.Series(dtype=str)) == selected_startup] if not product_mapping_df.empty else pd.DataFrame()
+        if not related_products.empty:
+            st.markdown("### Produits phares associés")
+            cols = ["company_name", "public_name", "flagship_product", "product_category", "ticker", "exchange_name", "status", "notes"]
+            st.dataframe(related_products[safe_columns(related_products, cols)], use_container_width=True)
         st.markdown("**Site / source :**")
         st.write(row.get("website", ""))
         st.write(row.get("source_url", ""))
